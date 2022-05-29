@@ -14,8 +14,8 @@ class Widget : public QWidget
 {
     Q_OBJECT
 public:
-    static Widget *ins;
-    Ui::Widget *ui; // ui设置为单例
+    static Widget *ins;// 单例
+    Ui::Widget *ui;
 
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
@@ -26,18 +26,15 @@ public slots:
     bool on_freshButton_clicked();
     void on_commitButton_clicked();
     void on_closeButton_clicked();
-    void on_switchToNodeButton_clicked();
 //    void on_switchToBranchButton_clicked();
 //    void on_createBranchButton_clicked();
-    void on_pullFromCommitButton_clicked();
     void on_restoreButton_clicked();
-    void on_diffWithNodeButton_clicked();
 
     void on_workSpaceWidget_itemDoubleClicked(QListWidgetItem *item);
 };
 
-
 #define MainWidget Widget::ins
 #define MainUI Widget::ins->ui
+#define isWorkSpaceClean MainWidget->on_freshButton_clicked()
 
 #endif // WIDGET_H

@@ -66,7 +66,7 @@ vector<string> fileList(const string &path, bool filter){
     long fp = _findfirst(utf2gbk(path+"\\*").c_str(), &fileinfo);
     while(fp != -1){
         string str = gbk2utf(fileinfo.name);
-        if(str != "." && str != ".." && str != ".git" && str != ".tygit" && (!filter || true)){ //filter..
+        if(str != "." && str != ".." && str != ".git" && str != ".vvs" && (!filter || true)){ //filter..
             res.push_back(str);
         }
         if(_findnext(fp, &fileinfo)) break;

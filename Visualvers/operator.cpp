@@ -105,7 +105,7 @@ void loadBranch(){
 //提交一个文件/夹，创建需要的节点，返回Node，文件夹的哈希值即其.tree的哈希值
 Node* commitFile(const string &path, const string &name){
 
-    if(judgePath(path) == 2){//判断是否为文件
+    if(judgePath(path) == FILE_PATH){//判断是否为文件
         string hs = getHash(path, name, 'f');
         auto *it = new FileNode(hs, name);
 

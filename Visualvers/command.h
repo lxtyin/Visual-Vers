@@ -10,7 +10,7 @@ using namespace std;
 
 //#define ROOT_PATH ("D:\\repo")
 extern string ROOT_PATH;
-#define REPO_PATH (ROOT_PATH + "\\.tygit")
+#define REPO_PATH (ROOT_PATH + "\\.vvs")
 #define DATA_PATH (REPO_PATH + "\\data")
 #define DATA_PATH_ (REPO_PATH + "\\data\\")
 #define COMMIT_PATH (REPO_PATH + "\\commits")

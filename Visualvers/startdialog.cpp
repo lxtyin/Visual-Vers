@@ -26,16 +26,26 @@ StartDialog::StartDialog(QWidget *parent) :
     }
 
     connect(ui->listWidget, &QListWidget::itemDoubleClicked, [&](QListWidgetItem *item){
+        //打开一个最近仓库
         ROOT_PATH = Q2Str(item->text());
-        openRepo();
+        if(judgePath(REPO_PATH) == EMPTY_PATH){
+            Error("项目不存在，可能被移动或移除！", this);
+            delete item;
+        }else openRepo();
     });
     connect(ui->openButton, &QPushButton::clicked, [&](){
+        //打开本地仓库
         QString rootpath = QFileDialog::getExistingDirectory(this, "打开一个已有的仓库", "..");
+        if(rootpath.isEmpty()) return;
         ROOT_PATH = Q2Str(rootpath.replace('/', '\\'));
-        openRepo();
+        if(judgePath(REPO_PATH) == EMPTY_PATH){
+            Error("这并不是一个仓库！", this);
+        }else openRepo();
     });
     connect(ui->newButton, &QPushButton::clicked, [&](){
+        //新建一个仓库
         QString rootpath = QFileDialog::getExistingDirectory(this, "选择仓库目录", "..");
+        if(rootpath.isEmpty()) return;
         ROOT_PATH = Q2Str(rootpath.replace('/', '\\'));
         init();
         openRepo();
@@ -46,18 +56,14 @@ StartDialog::~StartDialog() {
     delete ui;
 }
 
-void StartDialog::openRepo(){ //ROOT_PATH已经确定，尝试打开目录
-    if(judgePath(REPO_PATH) == EMPTY_PATH){
-        Error("项目不存在，可能由于路径错误或已被移除！", this);
-    }else{
-        //更新recent.txt
-        auto tmp = lines;
-        lines.clear();
-        lines.push_back(ROOT_PATH);
-        for(string &str: tmp){
-            if(str != ROOT_PATH) lines.push_back(str);
-        }
-        loadFile("recent.txt", lines);
-        accept();
+void StartDialog::openRepo(){ //ROOT_PATH已经确定，打开目录
+    //更新recent.txt
+    auto tmp = lines;
+    lines.clear();
+    lines.push_back(ROOT_PATH);
+    for(string &str: tmp){
+        if(str != ROOT_PATH) lines.push_back(str);
     }
+    loadFile("recent.txt", lines);
+    accept();
 }

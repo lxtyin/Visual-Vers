@@ -10,10 +10,12 @@ INPUT(
 ./debug\operator.o
 ./debug\widget.o
 ./debug\startdialog.o
+./debug\contextmenu.o
 ./debug\qrc_resource.o
 ./debug\moc_CommitNodeButton.o
 ./debug\moc_widget.o
 ./debug\moc_myPainterWidget.o
 ./debug\moc_diffdialog.o
 ./debug\moc_startdialog.o
+./debug\moc_contextmenu.o
 );

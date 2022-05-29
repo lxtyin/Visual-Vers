@@ -36,7 +36,8 @@ SOURCES += \
     Node.cpp\
     operator.cpp\
     widget.cpp\
-    startdialog.cpp
+    startdialog.cpp \
+    contextmenu.cpp
 
 
 HEADERS += \
@@ -49,13 +50,15 @@ HEADERS += \
     ModifyItem.h\
     diffdialog.h\
     operator.h \
-    startdialog.h
+    startdialog.h \
+    contextmenu.h
 
 
 FORMS += \
     widget.ui\
     diffdialog.ui \
-    startdialog.ui
+    startdialog.ui \
+    contextmenu.ui
 
 
 RESOURCES += \

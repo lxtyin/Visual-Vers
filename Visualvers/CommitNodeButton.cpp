@@ -3,7 +3,7 @@
 #include "Node.h"
 #include "Branch.h"
 #include "command.h"
-#include <QDebug>
+#include "contextmenu.h"
 
 CommitNodeButton* CommitNodeButton::currentCommitNodeButton = nullptr;
 CommitNodeButton::CommitNodeButton(CommitNode *_node, QWidget *parent) :
@@ -35,14 +35,15 @@ void CommitNodeButton::beclicked() {
     if(currentCommitNodeButton != nullptr) currentCommitNodeButton->setImage(":/images/img/CButtonUp.png");
     currentCommitNodeButton = this;
 
-//    setImage(":/images/img/CButtonDown.png");
+    setImage(":/images/img/CButtonDown.png");
     MainUI->idLabel->setText(Str2Q("Id:" + myNode->id));
     MainUI->commentTextEdit->setText(Str2Q(myNode->comment));
-
-//    cout << (myNode == nullptr) << ' ' << (currentBranch == nullptr) << '\n';
-//    return;
-    bool ok = (myNode != currentBranch->position); //设置右边一系列按钮是否可用
-    MainUI->switchToNodeButton->setEnabled(ok);
-    MainUI->pullFromCommitButton->setEnabled(ok);
-    MainUI->diffWithNodeButton->setEnabled(ok);
 }
+
+void CommitNodeButton::contextMenuEvent(QContextMenuEvent *ev){
+    ContextMenu *menu = new ContextMenu(this, MainWidget);
+    menu->move(ev->globalPos());
+    menu->open();
+}
+
+

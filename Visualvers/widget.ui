@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1143</width>
-    <height>691</height>
+    <width>1125</width>
+    <height>743</height>
    </rect>
   </property>
   <property name="font">
@@ -20,348 +20,520 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
-   <property name="spacing">
-    <number>15</number>
+  <widget class="QListWidget" name="workSpaceWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>69</y>
+     <width>431</width>
+     <height>661</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(217, 217, 217);</string>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <property name="spacing">
-      <number>15</number>
-     </property>
-     <item>
-      <widget class="QScrollArea" name="scrollArea">
-       <property name="minimumSize">
-        <size>
-         <width>800</width>
-         <height>500</height>
-        </size>
-       </property>
-       <property name="widgetResizable">
-        <bool>true</bool>
-       </property>
-       <widget class="myPainterWidget" name="scrollAreaWidgetContents">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>798</width>
-          <height>498</height>
-         </rect>
-        </property>
-        <widget class="QLabel" name="currentFlag">
-         <property name="geometry">
-          <rect>
-           <x>150</x>
-           <y>160</y>
-           <width>60</width>
-           <height>60</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap resource="resource.qrc">:/images/img/flag.png</pixmap>
-         </property>
-        </widget>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QLabel" name="idLabel">
-           <property name="minimumSize">
-            <size>
-             <width>300</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>微软雅黑</family>
-            </font>
-           </property>
-           <property name="text">
-            <string>ID：</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="commitbyLabel">
-           <property name="font">
-            <font>
-             <family>微软雅黑</family>
-            </font>
-           </property>
-           <property name="text">
-            <string>CommitBy：</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="committimeLabel">
-           <property name="font">
-            <font>
-             <family>微软雅黑</family>
-            </font>
-           </property>
-           <property name="text">
-            <string>CommitTime：</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDateTimeEdit" name="commitTime">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="commentLabel">
-           <property name="font">
-            <font>
-             <family>微软雅黑</family>
-            </font>
-           </property>
-           <property name="text">
-            <string>Comment：</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QTextEdit" name="commentTextEdit">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>0</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="switchToNodeButton">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>切换工作区到此节点</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pullFromCommitButton">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>从此节点拉取/合并</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="diffWithNodeButton">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>对比此节点与工作区</string>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+    <property name="text">
+     <string>+ /asdasdasdaf</string>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="background">
+     <brush brushstyle="Dense2Pattern">
+      <color alpha="255">
+       <red>189</red>
+       <green>250</green>
+       <blue>186</blue>
+      </color>
+     </brush>
+    </property>
+    <property name="foreground">
+     <brush brushstyle="NoBrush">
+      <color alpha="255">
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </brush>
+    </property>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QListWidget" name="workSpaceWidget">
-       <item>
-        <property name="text">
-         <string>+ /asdasdasdaf</string>
-        </property>
-        <property name="font">
-         <font>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="background">
-         <brush brushstyle="Dense2Pattern">
-          <color alpha="255">
-           <red>189</red>
-           <green>250</green>
-           <blue>186</blue>
-          </color>
-         </brush>
-        </property>
-        <property name="foreground">
-         <brush brushstyle="NoBrush">
-          <color alpha="255">
-           <red>0</red>
-           <green>0</green>
-           <blue>0</blue>
-          </color>
-         </brush>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>-  /gkuhhvkhbu</string>
-        </property>
-        <property name="font">
-         <font>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="background">
-         <brush brushstyle="Dense6Pattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>138</green>
-           <blue>138</blue>
-          </color>
-         </brush>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>*  /sadasdasdsd</string>
-        </property>
-        <property name="font">
-         <font>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="background">
-         <brush brushstyle="BDiagPattern">
-          <color alpha="255">
-           <red>161</red>
-           <green>197</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>新建项目</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>新建项目</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>新建项目</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>新建项目</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>新建项目</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>新建项目</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QPushButton" name="freshButton">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>刷新</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="restoreButton">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>撤销更改</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="closeButton">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton{
+    <property name="text">
+     <string>-  /gkuhhvkhbu</string>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="background">
+     <brush brushstyle="Dense6Pattern">
+      <color alpha="255">
+       <red>255</red>
+       <green>138</green>
+       <blue>138</blue>
+      </color>
+     </brush>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>*  /sadasdasdsd</string>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="background">
+     <brush brushstyle="BDiagPattern">
+      <color alpha="255">
+       <red>161</red>
+       <green>197</green>
+       <blue>255</blue>
+      </color>
+     </brush>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>新建项目</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>新建项目</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>新建项目</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>新建项目</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>新建项目</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>新建项目</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>230</y>
+     <width>663</width>
+     <height>500</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>500</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="myPainterWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>661</width>
+      <height>498</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#scrollAreaWidgetContents{background-color: rgb(217, 217, 217);}</string>
+    </property>
+    <widget class="QLabel" name="currentFlag">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>130</y>
+       <width>60</width>
+       <height>60</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resource.qrc">:/images/img/flag.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>24</y>
+     <width>431</width>
+     <height>42</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>3</number>
+    </property>
+    <item>
+     <widget class="QPushButton" name="commitButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>141</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Adobe Devanagari</family>
+        <pointsize>9</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#commitButton{
+	padding:3px;
+	background-color: rgb(88, 88, 88);
+	color: rgb(95, 95, 95);
+	color: white;   
+	image: url(:/images/img/submit_white.png) 13dp 13dp;
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+}
+#commitButton:hover{
+	background-color: rgb(225, 225, 225);
+	color: rgb(95, 95, 95);
+	padding:3px;
 	
+	image: url(:/images/img/submit_black.png);
+	color: white;   
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+}
+#commitButton:pressed{
+	background-color:rgb(140, 163, 163);
+	padding:3px;
+	image: url(:/images/img/submit_white.png);
+	color: rgb(95, 95, 95);
+	color: white;   
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>3</width>
+        <height>3</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="restoreButton">
+      <property name="minimumSize">
+       <size>
+        <width>141</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#restoreButton{
+	background-color: rgb(88, 88, 88);
+	color: rgb(95, 95, 95);
+	color: white;   
+	
+	image: url(:/images/img/back_white.png);
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+}
+#restoreButton:hover{
+	background-color: rgb(225, 225, 225);
+	color: rgb(95, 95, 95);
+	
+	
+	image: url(:/images/img/back_black.png);
+	color: white;   
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+}
+#restoreButton:pressed{
+	background-color:rgb(140, 163, 163);
+	image: url(:/images/img/back_white.png);
+	color: rgb(95, 95, 95);
+	color: white;   
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="freshButton">
+      <property name="minimumSize">
+       <size>
+        <width>141</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#freshButton{
+	background-color: rgb(88, 88, 88);
+	color: rgb(95, 95, 95);
+	color: white;   
+	padding:3px;
+	image: url(:/images/img/reflash_white.png);
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+}
+#freshButton:hover{
+	background-color: rgb(225, 225, 225);
+	color: rgb(95, 95, 95);
+	padding:3px;
+	image: url(:/images/img/reflash_black.png);
+	color: white;   
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+}
+#freshButton:pressed{
+	padding:3px;
+	background-color:rgb(140, 163, 163);
+	image: url(:/images/img/reflash_white.png);
+	color: rgb(95, 95, 95);
+	color: white;   
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+}</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>25</width>
+        <height>25</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>110</y>
+     <width>501</width>
+     <height>123</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QTextEdit" name="commentTextEdit">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>170</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(237, 237, 237);</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="curAvatar">
+      <property name="minimumSize">
+       <size>
+        <width>121</width>
+        <height>121</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(237, 237, 237);
+border-width:3px;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>24</y>
+     <width>501</width>
+     <height>89</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QLabel" name="idLabel">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(237, 237, 237);</string>
+      </property>
+      <property name="text">
+       <string>ID：</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QDateTimeEdit" name="commitTime">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(237, 237, 237);</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>940</x>
+     <y>24</y>
+     <width>163</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QPushButton" name="closeButton">
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>42</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
 	color: rgb(0, 0, 0);
 	background-color: rgb(202, 255, 194);
 }
 </string>
-         </property>
-         <property name="text">
-          <string>下班</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QPushButton" name="commitButton">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>150</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>15</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>提交</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-  </layout>
+      </property>
+      <property name="text">
+       <string>下班</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="Avatar">
+      <property name="minimumSize">
+       <size>
+        <width>161</width>
+        <height>161</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>160</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(237, 237, 237);
+border-width:3px;
+</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

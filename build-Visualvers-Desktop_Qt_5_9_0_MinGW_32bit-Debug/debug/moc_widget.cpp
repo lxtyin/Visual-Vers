@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Widget_t {
-    QByteArrayData data[12];
-    char stringdata0[254];
+    QByteArrayData data[9];
+    char stringdata0[162];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,21 +36,15 @@ QT_MOC_LITERAL(1, 7, 22), // "on_freshButton_clicked"
 QT_MOC_LITERAL(2, 30, 0), // ""
 QT_MOC_LITERAL(3, 31, 23), // "on_commitButton_clicked"
 QT_MOC_LITERAL(4, 55, 22), // "on_closeButton_clicked"
-QT_MOC_LITERAL(5, 78, 29), // "on_switchToNodeButton_clicked"
-QT_MOC_LITERAL(6, 108, 31), // "on_pullFromCommitButton_clicked"
-QT_MOC_LITERAL(7, 140, 24), // "on_restoreButton_clicked"
-QT_MOC_LITERAL(8, 165, 29), // "on_diffWithNodeButton_clicked"
-QT_MOC_LITERAL(9, 195, 36), // "on_workSpaceWidget_itemDouble..."
-QT_MOC_LITERAL(10, 232, 16), // "QListWidgetItem*"
-QT_MOC_LITERAL(11, 249, 4) // "item"
+QT_MOC_LITERAL(5, 78, 24), // "on_restoreButton_clicked"
+QT_MOC_LITERAL(6, 103, 36), // "on_workSpaceWidget_itemDouble..."
+QT_MOC_LITERAL(7, 140, 16), // "QListWidgetItem*"
+QT_MOC_LITERAL(8, 157, 4) // "item"
 
     },
     "Widget\0on_freshButton_clicked\0\0"
     "on_commitButton_clicked\0on_closeButton_clicked\0"
-    "on_switchToNodeButton_clicked\0"
-    "on_pullFromCommitButton_clicked\0"
     "on_restoreButton_clicked\0"
-    "on_diffWithNodeButton_clicked\0"
     "on_workSpaceWidget_itemDoubleClicked\0"
     "QListWidgetItem*\0item"
 };
@@ -62,7 +56,7 @@ static const uint qt_meta_data_Widget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -70,24 +64,18 @@ static const uint qt_meta_data_Widget[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   54,    2, 0x0a /* Public */,
-       3,    0,   55,    2, 0x0a /* Public */,
-       4,    0,   56,    2, 0x0a /* Public */,
-       5,    0,   57,    2, 0x0a /* Public */,
-       6,    0,   58,    2, 0x0a /* Public */,
-       7,    0,   59,    2, 0x0a /* Public */,
-       8,    0,   60,    2, 0x0a /* Public */,
-       9,    1,   61,    2, 0x0a /* Public */,
+       1,    0,   39,    2, 0x0a /* Public */,
+       3,    0,   40,    2, 0x0a /* Public */,
+       4,    0,   41,    2, 0x0a /* Public */,
+       5,    0,   42,    2, 0x0a /* Public */,
+       6,    1,   43,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Bool,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 10,   11,
+    QMetaType::Void, 0x80000000 | 7,    8,
 
        0        // eod
 };
@@ -102,11 +90,8 @@ void Widget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         case 1: _t->on_commitButton_clicked(); break;
         case 2: _t->on_closeButton_clicked(); break;
-        case 3: _t->on_switchToNodeButton_clicked(); break;
-        case 4: _t->on_pullFromCommitButton_clicked(); break;
-        case 5: _t->on_restoreButton_clicked(); break;
-        case 6: _t->on_diffWithNodeButton_clicked(); break;
-        case 7: _t->on_workSpaceWidget_itemDoubleClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
+        case 3: _t->on_restoreButton_clicked(); break;
+        case 4: _t->on_workSpaceWidget_itemDoubleClicked((*reinterpret_cast< QListWidgetItem*(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -137,13 +122,13 @@ int Widget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 5)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 8;
+        _id -= 5;
     }
     return _id;
 }

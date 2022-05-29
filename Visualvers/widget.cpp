@@ -129,23 +129,6 @@ bool Widget::on_freshButton_clicked(){
     }
 }
 
-//和某节点对比
-void Widget::on_diffWithNodeButton_clicked(){
-    // 和刷新部分同理
-    ui->workSpaceWidget->clear();
-    vector<ModifyItem*> diff;
-    diffWithNode(CommitNodeButton::currentCommitNodeButton->myNode, ROOT_PATH , diff);
-
-    ui->workSpaceWidget->addItem(("*** 当前工作区与节点 " +
-        CommitNodeButton::currentCommitNodeButton->myNode->id + " 对比 ***").c_str());
-
-    if(diff.empty()){
-        ui->workSpaceWidget->addItem("没有任何差异");
-    }else for(auto itm: diff){
-        ui->workSpaceWidget->addItem(itm);
-    }
-}
-
 //提交按钮
 void Widget::on_commitButton_clicked() {
     bool ok;
@@ -155,46 +138,6 @@ void Widget::on_commitButton_clicked() {
             currentBranch->position->myButton->clicked();
             updateGraph();
             on_freshButton_clicked();
-        }
-    }
-}
-
-//切换工作区按钮
-void Widget::on_switchToNodeButton_clicked() {
-    if(!isWorkSpaceClean){
-        Error("工作区有未提交的修改内容，请先提交或撤销");
-        return;
-    }
-    if(CommitNodeButton::currentCommitNodeButton != nullptr){
-        switchToNode(CommitNodeButton::currentCommitNodeButton->myNode);
-        CommitNodeButton::currentCommitNodeButton->clicked();
-        updateGraph();
-        on_freshButton_clicked();
-    }
-}
-
-//拉取合并按钮
-void Widget::on_pullFromCommitButton_clicked() {
-    if(!isWorkSpaceClean){
-        Error("工作区有未提交的修改内容，请先提交或撤销");
-        return;
-    }
-    if(CommitNodeButton::currentCommitNodeButton != nullptr){
-        bool ok;
-        QString str =  QInputDialog::getText(this, "提交", "为本次合并输入comment:", QLineEdit::Normal, "", &ok);
-        if(ok){
-            vector<ModifyItem*> diff;
-            ok = pullFromCommit(CommitNodeButton::currentCommitNodeButton->myNode, Q2Str(str), diff, 0);
-            if(!ok){
-                Warning("合并失败：存在一些冲突，您可以在下方框中查看产生冲突的文件，随后手动修改或强制合并。");
-                ui->workSpaceWidget->clear();
-                for(auto itm: diff) ui->workSpaceWidget->addItem(itm);
-            }else{
-                Hint("没有发生冲突，合并成功！");
-                currentBranch->position->myButton->clicked();
-                updateGraph();
-                on_freshButton_clicked();
-            }
         }
     }
 }
