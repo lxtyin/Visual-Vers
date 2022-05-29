@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>img/CButtonUp.png</file>
+        <file>img/CButtonDown.png</file>
+        <file>img/flag.png</file>
+        <file>img/reflash_black.png</file>
+        <file>img/reflash_white.png</file>
+        <file>img/back_black.png</file>
+        <file>img/back_white.png</file>
+        <file>img/submit_white.png</file>
+        <file>img/submit_black.png</file>
+        <file>img/title.png</file>
+    </qresource>
+</RCC>
