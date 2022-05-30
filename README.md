@@ -36,13 +36,13 @@ Visual-Vers是一款可视化的版本控制软件，目的在于补全git在可
 
 #### 原理简介
 
-###### 文件系统
+##### 文件系统
 
 版本控制实际上一个文件系统，其中总的来看有两个树形结构。每个版本都是一棵文件树，文件树的根节点又构成了一棵版本继承树（因为版本合并操作的存在，版本继承树准确来说是一个DAG（有向无环图））
 
-一个版本对应一个文件树，叶子节点对应文件（FileNode），其他节点对应文件夹（TreeNode），同时也是一棵独立的文件树。根节点则对应这一整个版本（CommitNode）。两个版本的文件树可以共用一些节点，做到节省空间，总结构类似可持久化线段树。
+各个版本的文件树之间可以共享节点来节省空间。
 
-###### 项目变更发现
+##### 项目变更发现
 
 这里指在整个工作区中，找到所有用户修改过的文件（相对于上个版本）并罗列呈现，和下面的“文件变更发现”有所区别。
 
@@ -50,7 +50,7 @@ Visual-Vers是一款可视化的版本控制软件，目的在于补全git在可
 
 git也是依赖哈希判断文件是否相同的，但它只关注文件内容，将文件名放置在TreeNode（即保存它的文件夹）中，而本项目则将文件内容和文件名称放在一起去获取哈希值，这样做的优势在于：git判断两个节点是否相同必须依赖上下文，而本项目具体存储的节点完全是“路径无关”的，可以做到散列存储。
 
-###### 文件变更发现
+##### 文件变更发现
 
 这里指的是对某个具体的文件，找出其修改内容（具体增删了哪些字符）
 
@@ -60,10 +60,206 @@ git也是依赖哈希判断文件是否相同的，但它只关注文件内容�
 
 参考资料：https://zhuanlan.zhihu.com/p/67024353
 
-###### 有向图绘制
+##### 有向图绘制
+
+本项目的图形界面使用Qt制作，
+
+
+
+#### 逻辑结构
+
+##### Node
+
+Node类为所有节点的抽象类。
+
+FileNode类继承自Node，表示一个**文件节点**，对应一个具体文件。
+
+TreeNode类继承自Node，表示一个**树节点**，对应一个文件夹，其中包含一个指向所有子节点（Node*，可以是文件节点或另一个树节点）的邻接表`son`。
+
+CommitNode类继承自TreeNode，表示一个**提交节点**，或者说**版本节点**，其中除了继承自TreeNode的子目录邻接表外，还有指向下个版本的邻接表`nextCommit`，以及指向上个版本的指针 `lastCommitNode`。各种版本节点的信息（如提交者，评论，提交时间等）都保存在CommitNode中。
+
+###### ID
+
+每个节点都具有一个ID，FileNode的ID等于它的MD5哈希值和文件名混合，TreeNode的ID是其所有子节点哈希值以及本文件夹名的混合，CommitNode的ID同TreeNode的ID。
+
+项目关闭时，项目仓库中根据此ID存储各个节点（具体见物理结构），项目启动时，所有节点都被读到一个map中，通过ID索引。
+
+Node结构是本项目最核心的逻辑结构，关于提交，回滚等具体实现见下文。
+
+##### Branch
+
+分支类主要包含了一个CommitNode的指针，其实仅仅只是一个版本节点的标记，因为我们图形化界面的特点，其实不需要特别的分支标记就能完成分支操作，或者说，在我们的逻辑结构下，其实每个节点都是一个分支。
+
+代码中完成了各种分支的增删改查操作，但应用到实际界面上的其实只有一个“当前节点”分支，指向用户当前所处的版本。
+
+##### CommitNodeButton
+
+版本节点按钮，继承自QPushButton，作为Node树到用户界面的衔接。
+
+每个CommitNode在构造时都会同时构造一个CommitNodeButton，CommitNodeButton也包含其对应的CommitNode指针，它们是一一对应的关系。
+
+CommitNodeButton负责显示在用户界面上，在用户点击时将版本节点具体的信息以及操作接口显示给用户。
+
+##### ModifyItem
+
+修改记录项，继承自QListWidgetItem，在**项目变更发现**时将每一条文件的变更都记录为一条ModifyItem，能够显示在界面的列表中，同时包含修改记录对应的具体文件路径，用户双击时，进行相应的**文件变更发现**并显示。
 
 
 
 
 
 #### 物理结构
+
+在要管理的项目根目录下会有一个.vvs文件夹，作为版本库（对应.git）
+
+其目录结构如下：
+
+- .vvs
+
+  - commits文件夹
+
+    - 许多无拓展名的文件，每个文件存放一个CommitNode（提交记录节点），其文件名为ID，其中的内容格式为：
+      - 第一行：评论
+      - 第二行：提交者
+      - 第三行：提交时间
+      - 第四行：深度
+      - 第五、六行：父版本（可能存在两个父版本）
+
+  - data文件夹
+
+    - 许多文件夹，每个文件夹存放一个Node（包括CommitNode），其文件夹名为ID，其中的内容：
+
+      - 若为FileNode，则内部直接存储这个文件的拷贝。
+
+      - 若为TreeNode（CommitNode），则内容为一个.tree后缀的文件，其名称为文件夹名（若为CommitNode则为空）
+        - 其中包括若干行，每两行表示一个子节点，第一行为子节点的名称，第二行为子节点的ID。
+
+  - .branch文件，其中有若干行，每两行为一个分支（实际上只用到一个分支），第一行为分支名，第二行为分支指向的CommitNode的ID
+
+上述是被管理的项目目录下的文件，在此软件的运行目录下还有几个资源文件，主要存放用户偏好等等：
+
+- avatars文件夹，存放使用过的各个头像（在本项目中头像和用户名具有相同意义，可以辨别用户）
+- userAvatars.txt，存放用户当前使用的头像
+- recent.txt，按顺序记录用户打开的仓库路径，后续可以直接打开“最近项目“
+
+
+
+#### 具体实现
+
+有command.cpp和operator.cpp两个工具脚本，其中包含了本项目诸多操作的Api，用于简化代码。
+
+command负责文件操作，包含了文件的增删查改移，路径判断，哈希值获取等函数，还包括大部分全局常量的定义。
+
+```C++
+//command.h
+extern string ROOT_PATH;									//各种常量定义
+#define REPO_PATH (ROOT_PATH + "\\.vvs")
+#define DATA_PATH (REPO_PATH + "\\data")
+#define DATA_PATH_ (REPO_PATH + "\\data\\")
+#define COMMIT_PATH (REPO_PATH + "\\commits")
+#define COMMIT_PATH_ (REPO_PATH + "\\commits\\")
+#define BRANCH_FILE_PATH (REPO_PATH + "\\.branch")
+
+#define DEFAULT_AVATAR ":/images/img/default.png"
+
+const string EMPTY_HASH = "00000000000000000000000000000000";
+const string ROOT_ID = "yemmm000000000000000000000000000t";
+
+bool doCmd(const string &cmd, string &res);				    //各种命令行Api，文件操作
+bool doCmd(const string &cmd);
+bool CopyAFile(const string &a, const string &b);
+void DeleteAny(const string &a);
+void CreateFolder(const string &a);
+
+const int FOLDER_PATH = 1;									//路径判断和路径宏
+const int FILE_PATH = 2;
+const int EMPTY_PATH = 0;
+bool isempty(const string &path);
+int judgePath(const string &path);
+
+vector<string> fileList(const string &path, bool filter = true); //更高级的文件操作
+void readFile(const string &path, vector<string> &lines);
+void loadFile(const string &path, vector<string> &lines);
+bool isTextFile(const string &path);
+
+void Hint(const string &info, QWidget *parent = MainWidget);   //提示Api
+void Warning(const string &info, QWidget *parent = MainWidget);
+void Error(const string &info, QWidget *parent = MainWidget);
+
+void mergeHash(string &hs, const string &name); 				//哈希值获取
+string getHash(const string &path, const string &name, const char tag);
+
+int str2int(const string &str);									//常用类型转换
+string int2str(int x);
+QString Str2Q(const string &str);
+string Q2Str(const QString &qstr);
+string gbk2utf(const string &gbkStr);							//为了windows文件操作
+string utf2gbk(const string &utf8Str);
+// 中文处理方式：
+// 整个项目采用utf-8
+// 仅面向windows，文件存取操作时转换到gbk
+// 对所有文件操作封装
+// 其中GBK和utf-8的转换代码来源网络
+```
+
+operator负责更具体的操作Api，如：
+
+```c++
+//operator.h
+void readAllNodes();								 //各种读取，从磁盘到内存
+void readSubNode(TreeNode *p, const string &path);
+void readCommit(CommitNode *p);
+void readAllCommits();
+
+void readBranch();
+void loadBranch();
+
+void readAvatar(string &s);
+void loadAvatar(string &s);
+//-------------------------------------------------------------------------// 下面是主要的处理函数，但不是面向用户的，大多是递归调用
+
+//提交一个工作区路径（可能是文件或者目录），返回产生的Node
+Node* commitFile(const string &path, const string &name);
+//获取两个CommitNode的最近公共祖先
+CommitNode* getCommitLca(CommitNode *a, CommitNode *b);
+//在工作区某处加载某个节点的内容（递归调用
+void loadNode(const string &path, Node *node);
+//对比工作区某处和某个节点，将工作区切换过去
+void compareAndSwitch(const string &path, TreeNode *from, TreeNode *to);
+//对比工作区某处和某个节点，将对方拉过来，返回是否冲突，将冲突内容写入diff（后面的option可以选冲突对应方式 返回冲突/应用目标/应用当前）
+bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode *tar, vector<ModifyItem*> &diff, int option = 0);
+//项目变更发现，差异写入diff
+void diffWithNode(TreeNode *from, const string &path, vector<ModifyItem*> &result);
+//文件变更发现，写入result
+bool getDiffBetween(const string &path1, const string &path2, vector<string> &result);
+
+//--------------------------------------------------------------------------// 下面是面向用户的Api
+//判断一个ID对应的Node类型
+bool isFileNode(const string &id);
+bool isTreeNode(const string &id);
+bool isCommitNode(const string &id);
+
+void init();									//初始化版本库
+bool commitAllWork(const string &comment);      //提交工作区所有内容
+bool forceLoad(CommitNode *target);				//强制切换到某个节点（丢失工作区未提交的内容）
+bool forceLoad(const string &id);
+void restore();									//放弃工作区所有未提交的内容
+
+bool switchToNode(CommitNode *target);			//切换到某个节点
+bool switchToNode(const string &id);			
+bool switchToBranch(const string &brname);		
+
+bool pullFromCommit(CommitNode *target, const string &comment, vector<ModifyItem*> &diff, int option = 0);	//拉取合并某个节点
+bool pullFromBranch(const string &brname, const string &comment, vector<ModifyItem*> &diff, int option = 0);
+
+bool createBranch(const string &brname);		//创建分支（没用）
+```
+
+
+
+##### 提交
+
+数据流：按钮点击 - (widget)输入评论 - (operator)commitAllWork - (operator)commitFile - 检查返回
+
+
+

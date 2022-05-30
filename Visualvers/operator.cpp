@@ -123,14 +123,13 @@ Node* commitFile(const string &path, const string &name){
 
     if(judgePath(path) == FILE_PATH){//判断是否为文件
         string hs = getHash(path, name, 'f');
-        auto *it = new FileNode(hs, name);
-
         if(!nodePool.count(hs)){
+            auto *it = new FileNode(hs, name);
             nodePool[hs] = it;
             CreateFolder(DATA_PATH_ + hs);
             CopyAFile(path, DATA_PATH_ + hs + "\\" + name);
 //            it->save();
-        }else delete it;
+        }
         return nodePool[hs];
     }
 
@@ -515,14 +514,21 @@ bool commitAllWork(const string &comment){
     TreeNode *root = dynamic_cast<TreeNode*>(commitFile(ROOT_PATH, ""));
 
     if(root->id == currentBranch->id){
-        Hint("nothing updated. worktree clean.");
+        Hint("没有内容需要提交！");
+        return false;
+    }else if(root->isCommitNode()){ //已经是提交节点 说明与先前的重复
+        Hint("历史存在完全相同版本，即将转移");
+        currentBranch->moveTo(dynamic_cast<CommitNode*>(root));
+        loadBranch();
         return false;
     }else{
         CommitNode *commit = new CommitNode(comment, root, currentBranch->position);
+        delete root;
         nodePool[commit->id] = commit;
         currentBranch->moveTo(commit);
         commit->save();
         loadBranch();
+        return true;
     }
 }
 
@@ -580,14 +586,23 @@ bool pullFromCommit(CommitNode *target, const string &comment, vector<ModifyItem
     auto *lca = getCommitLca(currentBranch->position, target);
     bool res = compareAndMerge(ROOT_PATH, lca, currentBranch->position, target, diff, option);
     if(res){
-        //成功合并
+        //没有冲突
         TreeNode *root = dynamic_cast<TreeNode*>(commitFile(ROOT_PATH, ""));
-        CommitNode *commit = new CommitNode(comment, root, currentBranch->position, target);
-        nodePool[commit->id] = commit;
-        currentBranch->moveTo(commit);
-        commit->save();
-        loadBranch();
-        return true;
+        if(root->isCommitNode()){ //和历史版本重复
+            Hint("历史存在完全相同版本，即将转移");
+            currentBranch->moveTo(dynamic_cast<CommitNode*>(root));
+            loadBranch();
+            return true;
+        }else{
+            //成功合并 产生两个父亲的新节点
+            CommitNode *commit = new CommitNode(comment, root, currentBranch->position, target);
+            delete root;
+            nodePool[commit->id] = commit;
+            currentBranch->moveTo(commit);
+            commit->save();
+            loadBranch();
+            return true;
+        }
     }else{
         restore(); //合并失败，撤销更改，重新选择
         return false;

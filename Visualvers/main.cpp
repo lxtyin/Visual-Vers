@@ -18,6 +18,7 @@ int main(int argc, char *argv[]) {
 
     StartDialog st; //初始界面 选择仓库目录
     if(st.exec() == QDialog::Rejected) return 0;
+    w.setWindowTitle(Str2Q(ROOT_PATH));
 
     readAllNodes(); //读取
     readAllCommits();

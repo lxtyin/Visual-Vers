@@ -57,14 +57,14 @@ public:
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QStringLiteral("Widget"));
-        Widget->resize(973, 625);
+        Widget->resize(904, 611);
         QFont font;
         font.setFamily(QString::fromUtf8("\345\276\256\350\275\257\351\233\205\351\273\221"));
         font.setBold(false);
         font.setWeight(50);
         Widget->setFont(font);
         horizontalLayout_4 = new QHBoxLayout(Widget);
-        horizontalLayout_4->setSpacing(0);
+        horizontalLayout_4->setSpacing(3);
         horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
@@ -73,10 +73,10 @@ public:
         verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
         verticalLayout_6->setSizeConstraint(QLayout::SetMinimumSize);
         verticalLayout_4 = new QVBoxLayout();
-        verticalLayout_4->setSpacing(0);
+        verticalLayout_4->setSpacing(3);
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(0);
+        horizontalLayout->setSpacing(3);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setSizeConstraint(QLayout::SetFixedSize);
         restoreButton = new QPushButton(Widget);
@@ -173,7 +173,7 @@ public:
         sizePolicy.setHeightForWidth(commitButton->sizePolicy().hasHeightForWidth());
         commitButton->setSizePolicy(sizePolicy);
         commitButton->setMinimumSize(QSize(300, 40));
-        commitButton->setMaximumSize(QSize(242, 300));
+        commitButton->setMaximumSize(QSize(16777215, 300));
         QFont font1;
         font1.setFamily(QStringLiteral("Adobe Devanagari"));
         font1.setPointSize(9);
@@ -252,7 +252,7 @@ public:
         sizePolicy1.setHeightForWidth(workSpaceWidget->sizePolicy().hasHeightForWidth());
         workSpaceWidget->setSizePolicy(sizePolicy1);
         workSpaceWidget->setMinimumSize(QSize(300, 500));
-        workSpaceWidget->setMaximumSize(QSize(300, 16777215));
+        workSpaceWidget->setMaximumSize(QSize(16777215, 16777215));
         workSpaceWidget->setStyleSheet(QLatin1String("\n"
 "border-style: outset;\n"
 "border-width:2px;\n"
@@ -439,7 +439,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new myPainterWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 663, 412));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 588, 398));
         scrollAreaWidgetContents->setStyleSheet(QLatin1String("#scrollAreaWidgetContents{background-color: rgb(217, 217, 217);\n"
 "border-style: outset;\n"
 "border-width:2px;\n"

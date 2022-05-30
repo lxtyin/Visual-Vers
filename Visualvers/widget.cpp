@@ -162,11 +162,10 @@ void Widget::on_commitButton_clicked() {
     bool ok;
     QString str = QInputDialog::getText(this, "提交", "请输入comment:", QLineEdit::Normal, "", &ok);
     if(ok){
-        if(commitAllWork(Q2Str(str))){
-            currentBranch->position->myButton->clicked();
-            updateGraph();
-            on_freshButton_clicked();
-        }
+        commitAllWork(Q2Str(str));
+        currentBranch->position->myButton->clicked();
+        updateGraph();
+        on_freshButton_clicked();
     }
 }
 

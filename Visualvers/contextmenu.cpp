@@ -52,7 +52,7 @@ void ContextMenu::on_pullFromCommitButton_clicked() {
         vector<ModifyItem*> diff;
         ok = pullFromCommit(but->myNode, Q2Str(str), diff, 0);
         if(!ok){
-            Warning("合并失败：存在一些冲突，您可以在下方框中查看产生冲突的文件，随后手动修改或强制合并。");
+            Warning("合并失败：存在一些冲突，您可以查看产生冲突的文件，随后手动修改或强制合并。");
             MainUI->workSpaceWidget->clear();
             for(auto itm: diff) MainUI->workSpaceWidget->addItem(itm);
         }else{
