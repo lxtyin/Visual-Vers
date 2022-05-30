@@ -4,7 +4,6 @@
 #include "Branch.h"
 #include "command.h"
 #include "contextmenu.h"
-#include <QDebug>
 
 CommitNodeButton* CommitNodeButton::currentCommitNodeButton = nullptr;
 CommitNodeButton::CommitNodeButton(CommitNode *_node, QWidget *parent) :
@@ -37,11 +36,13 @@ void CommitNodeButton::beclicked() {
     currentCommitNodeButton = this;
 
     setImage(":/images/img/CButtonDown.png");
-    MainUI->idLabel->setText(Str2Q("Id:" + myNode->id));
+    MainUI->idLabel->setText(Str2Q("ID:  \t" + myNode->id));
     MainUI->commentTextEdit->setText(Str2Q(myNode->comment));
+    MainUI->timeLabel->setText(Str2Q("Time:\t" + myNode->time));
 
     QPixmap pix(Str2Q(myNode->avatar));
-    MainUI->curAvatar->setPixmap(pix.scaled(MainUI->curAvatar->size()));
+    MainUI->curAvatar->setPixmap(pix.scaled(MainUI->curAvatar->size(),
+                                            Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 void CommitNodeButton::contextMenuEvent(QContextMenuEvent *ev){

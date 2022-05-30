@@ -31,6 +31,16 @@ ModifyItem::ModifyItem(char _type, const string &_info, const string &_p1, const
         setFont(font);
         setBackground(brush3);
     }
+
+    //若info为路径，自动去除ROOT_PATH部分
+    bool hasRoot = true;
+    for(int i=0;i<ROOT_PATH.size();i++){
+        if(i >= info.size() || info[i] != ROOT_PATH[i]){
+            hasRoot = false;
+            break;
+        }
+    }
+    if(hasRoot) info = info.substr(ROOT_PATH.size()+1, 100);
     string txt = "   " + info;
     txt[0] = type;
     setText(Str2Q(txt));
@@ -50,7 +60,7 @@ void ModifyItem::beclicked(){
 
     vector<string> result;
     getDiffBetween(path1, path2, result);
-    string name = info.substr(info.find_last_of('\\')+1, 100);
-    diffDialog *difdialog = new diffDialog(result, name, MainWidget);
+//    string name = info.substr(info.find_last_of('\\')+1, 100);
+    diffDialog *difdialog = new diffDialog(result, info, MainWidget);
     difdialog->show();
 }

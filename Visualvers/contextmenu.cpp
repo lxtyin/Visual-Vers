@@ -29,8 +29,7 @@ void ContextMenu::on_diffWithNodeButton_clicked(){
     vector<ModifyItem*> diff;
     diffWithNode(but->myNode, ROOT_PATH , diff);
 
-    MainUI->workSpaceWidget->addItem(("*** 当前工作区与节点 " +
-        but->myNode->id + " 对比 ***").c_str());
+    MainUI->workSpaceWidget->addItem(("对比：" + but->myNode->id).c_str());
 
     if(diff.empty()){
         MainUI->workSpaceWidget->addItem("没有任何差异");

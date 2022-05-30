@@ -13,7 +13,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QDateTimeEdit>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -43,7 +42,7 @@ public:
     QVBoxLayout *verticalLayout;
     QVBoxLayout *verticalLayout_2;
     QLabel *idLabel;
-    QDateTimeEdit *commitTime;
+    QLabel *timeLabel;
     QHBoxLayout *horizontalLayout_2;
     QTextEdit *commentTextEdit;
     QLabel *curAvatar;
@@ -58,7 +57,7 @@ public:
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QStringLiteral("Widget"));
-        Widget->resize(897, 626);
+        Widget->resize(973, 625);
         QFont font;
         font.setFamily(QString::fromUtf8("\345\276\256\350\275\257\351\233\205\351\273\221"));
         font.setBold(false);
@@ -70,7 +69,7 @@ public:
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
         verticalLayout_6 = new QVBoxLayout();
-        verticalLayout_6->setSpacing(0);
+        verticalLayout_6->setSpacing(5);
         verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
         verticalLayout_6->setSizeConstraint(QLayout::SetMinimumSize);
         verticalLayout_4 = new QVBoxLayout();
@@ -87,8 +86,8 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(restoreButton->sizePolicy().hasHeightForWidth());
         restoreButton->setSizePolicy(sizePolicy);
-        restoreButton->setMinimumSize(QSize(120, 40));
-        restoreButton->setMaximumSize(QSize(120, 40));
+        restoreButton->setMinimumSize(QSize(150, 40));
+        restoreButton->setMaximumSize(QSize(150, 40));
         restoreButton->setStyleSheet(QLatin1String("#restoreButton{\n"
 "	background-color: rgb(88, 88, 88);\n"
 "	color: rgb(95, 95, 95);\n"
@@ -100,7 +99,7 @@ public:
 "	border-style: outset;\n"
 "}\n"
 "#restoreButton:hover{\n"
-"	background-color: rgb(225, 225, 225);\n"
+"	background-color: rgb(255, 157, 157);\n"
 "	color: rgb(95, 95, 95);\n"
 "	padding:3px;\n"
 "	\n"
@@ -129,8 +128,8 @@ public:
         freshButton->setObjectName(QStringLiteral("freshButton"));
         sizePolicy.setHeightForWidth(freshButton->sizePolicy().hasHeightForWidth());
         freshButton->setSizePolicy(sizePolicy);
-        freshButton->setMinimumSize(QSize(120, 40));
-        freshButton->setMaximumSize(QSize(120, 40));
+        freshButton->setMinimumSize(QSize(150, 40));
+        freshButton->setMaximumSize(QSize(150, 40));
         freshButton->setStyleSheet(QLatin1String("#freshButton{\n"
 "	background-color: rgb(88, 88, 88);\n"
 "	color: rgb(95, 95, 95);\n"
@@ -142,7 +141,8 @@ public:
 "	border-style: outset;\n"
 "}\n"
 "#freshButton:hover{\n"
-"	background-color: rgb(225, 225, 225);\n"
+"	\n"
+"	background-color: rgb(211, 255, 152);\n"
 "	color: rgb(95, 95, 95);\n"
 "	padding:3px;\n"
 "	image: url(:/images/img/reflash_black.png);\n"
@@ -172,8 +172,8 @@ public:
         commitButton->setObjectName(QStringLiteral("commitButton"));
         sizePolicy.setHeightForWidth(commitButton->sizePolicy().hasHeightForWidth());
         commitButton->setSizePolicy(sizePolicy);
-        commitButton->setMinimumSize(QSize(141, 40));
-        commitButton->setMaximumSize(QSize(242, 40));
+        commitButton->setMinimumSize(QSize(300, 40));
+        commitButton->setMaximumSize(QSize(242, 300));
         QFont font1;
         font1.setFamily(QStringLiteral("Adobe Devanagari"));
         font1.setPointSize(9);
@@ -191,8 +191,7 @@ public:
 "	border-style: outset;\n"
 "}\n"
 "#commitButton:hover{\n"
-"	background-color: rgb(225, 225, 225);\n"
-"	color: rgb(95, 95, 95);\n"
+"	background-color: rgb(211, 255, 152);\n"
 "	padding:3px;\n"
 "	\n"
 "	image: url(:/images/img/submit_black.png);\n"
@@ -252,12 +251,13 @@ public:
         sizePolicy1.setVerticalStretch(10);
         sizePolicy1.setHeightForWidth(workSpaceWidget->sizePolicy().hasHeightForWidth());
         workSpaceWidget->setSizePolicy(sizePolicy1);
-        workSpaceWidget->setMinimumSize(QSize(244, 500));
-        workSpaceWidget->setMaximumSize(QSize(244, 16777215));
+        workSpaceWidget->setMinimumSize(QSize(300, 500));
+        workSpaceWidget->setMaximumSize(QSize(300, 16777215));
         workSpaceWidget->setStyleSheet(QLatin1String("\n"
 "border-style: outset;\n"
 "border-width:2px;\n"
 "border-color: rgb(132, 132, 132);"));
+        workSpaceWidget->setSpacing(2);
 
         verticalLayout_6->addWidget(workSpaceWidget);
 
@@ -284,26 +284,38 @@ public:
         sizePolicy2.setHeightForWidth(idLabel->sizePolicy().hasHeightForWidth());
         idLabel->setSizePolicy(sizePolicy2);
         idLabel->setMinimumSize(QSize(300, 40));
-        idLabel->setFont(font);
+        QFont font3;
+        font3.setFamily(QStringLiteral("Consolas"));
+        font3.setPointSize(12);
+        font3.setBold(false);
+        font3.setItalic(false);
+        font3.setWeight(9);
+        idLabel->setFont(font3);
         idLabel->setStyleSheet(QLatin1String("background-color:rgb(237, 237, 237);\n"
 "border-style: outset;\n"
 "border-width:2px;\n"
-"border-color: rgb(132, 132, 132);"));
+"border-color: rgb(132, 132, 132);\n"
+"\n"
+"font: 75 12pt \"Consolas\";\n"
+"color: rgb(188, 93, 61);"));
 
         verticalLayout_2->addWidget(idLabel);
 
-        commitTime = new QDateTimeEdit(Widget);
-        commitTime->setObjectName(QStringLiteral("commitTime"));
-        commitTime->setEnabled(false);
-        sizePolicy2.setHeightForWidth(commitTime->sizePolicy().hasHeightForWidth());
-        commitTime->setSizePolicy(sizePolicy2);
-        commitTime->setMinimumSize(QSize(150, 40));
-        commitTime->setStyleSheet(QLatin1String("background-color:rgb(237, 237, 237);\n"
+        timeLabel = new QLabel(Widget);
+        timeLabel->setObjectName(QStringLiteral("timeLabel"));
+        sizePolicy2.setHeightForWidth(timeLabel->sizePolicy().hasHeightForWidth());
+        timeLabel->setSizePolicy(sizePolicy2);
+        timeLabel->setMinimumSize(QSize(300, 40));
+        timeLabel->setStyleSheet(QLatin1String("background-color:rgb(237, 237, 237);\n"
 "border-style: outset;\n"
 "border-width:2px;\n"
-"border-color: rgb(132, 132, 132);"));
+"border-color: rgb(132, 132, 132);\n"
+"\n"
+"\n"
+"font: 75 12pt \"Consolas\";\n"
+"color: rgb(188, 93, 61);"));
 
-        verticalLayout_2->addWidget(commitTime);
+        verticalLayout_2->addWidget(timeLabel);
 
 
         verticalLayout->addLayout(verticalLayout_2);
@@ -317,7 +329,8 @@ public:
         commentTextEdit->setSizePolicy(sizePolicy2);
         commentTextEdit->setMinimumSize(QSize(300, 121));
         commentTextEdit->setMaximumSize(QSize(16777215, 121));
-        commentTextEdit->setStyleSheet(QLatin1String("background-color:rgb(237, 237, 237);\n"
+        commentTextEdit->setStyleSheet(QLatin1String("\n"
+"background-color: rgb(254, 254, 254);\n"
 "border-style: outset;\n"
 "border-width:2px;\n"
 "border-color: rgb(132, 132, 132);"));
@@ -326,14 +339,19 @@ public:
 
         curAvatar = new QLabel(Widget);
         curAvatar->setObjectName(QStringLiteral("curAvatar"));
-        sizePolicy.setHeightForWidth(curAvatar->sizePolicy().hasHeightForWidth());
-        curAvatar->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(curAvatar->sizePolicy().hasHeightForWidth());
+        curAvatar->setSizePolicy(sizePolicy3);
         curAvatar->setMinimumSize(QSize(121, 121));
         curAvatar->setMaximumSize(QSize(121, 16777215));
-        curAvatar->setStyleSheet(QLatin1String("background-color:rgb(237, 237, 237);\n"
+        curAvatar->setStyleSheet(QLatin1String("#curAvatar{\n"
+"background-color:rgb(237, 237, 237);\n"
 "border-style: outset;\n"
 "border-width:2px;\n"
-"border-color: rgb(132, 132, 132);"));
+"border-color: rgb(132, 132, 132);\n"
+"}"));
 
         horizontalLayout_2->addWidget(curAvatar);
 
@@ -348,11 +366,11 @@ public:
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         closeButton = new QPushButton(Widget);
         closeButton->setObjectName(QStringLiteral("closeButton"));
-        QSizePolicy sizePolicy3(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(closeButton->sizePolicy().hasHeightForWidth());
-        closeButton->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy4(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(closeButton->sizePolicy().hasHeightForWidth());
+        closeButton->setSizePolicy(sizePolicy4);
         closeButton->setMinimumSize(QSize(150, 42));
         closeButton->setMaximumSize(QSize(161, 16777215));
         closeButton->setStyleSheet(QLatin1String("#closeButton{\n"
@@ -386,14 +404,22 @@ public:
 
         userAvatar = new QLabel(Widget);
         userAvatar->setObjectName(QStringLiteral("userAvatar"));
-        sizePolicy.setHeightForWidth(userAvatar->sizePolicy().hasHeightForWidth());
-        userAvatar->setSizePolicy(sizePolicy);
+        sizePolicy3.setHeightForWidth(userAvatar->sizePolicy().hasHeightForWidth());
+        userAvatar->setSizePolicy(sizePolicy3);
         userAvatar->setMinimumSize(QSize(161, 161));
         userAvatar->setMaximumSize(QSize(161, 16777215));
-        userAvatar->setStyleSheet(QLatin1String("background-color:rgb(237, 237, 237);\n"
+        userAvatar->setStyleSheet(QLatin1String("#userAvatar{\n"
+"background-color:rgb(237, 237, 237);\n"
 "border-style: outset;\n"
 "border-width:2px;\n"
-"border-color: rgb(132, 132, 132);"));
+"border-color: rgb(132, 132, 132);\n"
+"}\n"
+"#userAvatar:hover{\n"
+"background-color:rgb(237, 237, 237);\n"
+"border-style: solid;\n"
+"border-width:3px;\n"
+"border-color: rgb(201, 255, 254);\n"
+"}"));
 
         verticalLayout_3->addWidget(userAvatar);
 
@@ -413,7 +439,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new myPainterWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 647, 413));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 663, 412));
         scrollAreaWidgetContents->setStyleSheet(QLatin1String("#scrollAreaWidgetContents{background-color: rgb(217, 217, 217);\n"
 "border-style: outset;\n"
 "border-width:2px;\n"
@@ -452,11 +478,11 @@ public:
         const bool __sortingEnabled = workSpaceWidget->isSortingEnabled();
         workSpaceWidget->setSortingEnabled(false);
         QListWidgetItem *___qlistwidgetitem = workSpaceWidget->item(0);
-        ___qlistwidgetitem->setText(QApplication::translate("Widget", "+ /asdasdasdaf", Q_NULLPTR));
+        ___qlistwidgetitem->setText(QApplication::translate("Widget", "+ asdasdasdaf", Q_NULLPTR));
         QListWidgetItem *___qlistwidgetitem1 = workSpaceWidget->item(1);
-        ___qlistwidgetitem1->setText(QApplication::translate("Widget", "-  /gkuhhvkhbu", Q_NULLPTR));
+        ___qlistwidgetitem1->setText(QApplication::translate("Widget", "-  gkuhhvkhbu", Q_NULLPTR));
         QListWidgetItem *___qlistwidgetitem2 = workSpaceWidget->item(2);
-        ___qlistwidgetitem2->setText(QApplication::translate("Widget", "*  /sadasdasdsd", Q_NULLPTR));
+        ___qlistwidgetitem2->setText(QApplication::translate("Widget", "*  sadasdasdsd", Q_NULLPTR));
         QListWidgetItem *___qlistwidgetitem3 = workSpaceWidget->item(3);
         ___qlistwidgetitem3->setText(QApplication::translate("Widget", "\346\226\260\345\273\272\351\241\271\347\233\256", Q_NULLPTR));
         QListWidgetItem *___qlistwidgetitem4 = workSpaceWidget->item(4);
@@ -471,7 +497,8 @@ public:
         ___qlistwidgetitem8->setText(QApplication::translate("Widget", "\346\226\260\345\273\272\351\241\271\347\233\256", Q_NULLPTR));
         workSpaceWidget->setSortingEnabled(__sortingEnabled);
 
-        idLabel->setText(QApplication::translate("Widget", "ID\357\274\232", Q_NULLPTR));
+        idLabel->setText(QString());
+        timeLabel->setText(QString());
         curAvatar->setText(QString());
         closeButton->setText(QApplication::translate("Widget", "\344\270\213\347\217\255", Q_NULLPTR));
         userAvatar->setText(QString());

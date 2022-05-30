@@ -61,6 +61,7 @@ public:
     CommitNode *lastCommitNode[2];
     vector<CommitNode*> nextCommit;
     string avatar;
+    string time;
     string comment;
     int dep;
 

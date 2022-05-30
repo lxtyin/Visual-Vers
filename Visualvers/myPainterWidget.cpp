@@ -2,7 +2,6 @@
 #include "myPainterWidget.h"
 #include <QPainter>
 #include <cmath>
-#include <QDebug>
 using namespace std;
 
 myPainterWidget::myPainterWidget(QWidget *parent): QWidget((parent)), lines(vector<QLineF>()) {}

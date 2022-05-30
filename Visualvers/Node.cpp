@@ -3,6 +3,7 @@
 #include "command.h"
 #include "CommitNodeButton.h"
 #include <fstream>
+#include <QDateTime>
 
 using namespace std;
 
@@ -23,15 +24,18 @@ void TreeNode::save() {
 
 void FileNode::save() {} //摆设
 
+//创建时默认使用当前avatar，需要更改另外操作
+//time也默认使用当前时间，需要更改另外操作（一般读入时需要更改
 CommitNode::CommitNode(string _comment, string _id, CommitNode *fa1, CommitNode *fa2):
   comment(move(_comment)), TreeNode(move(_id), ""),
   lastCommitNode{fa1, fa2}, myButton(new CommitNodeButton(this))
 {
     avatar = MainWidget->curAvatar;
+    time = Q2Str(QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm"));
     if(fa1 == nullptr) dep = 1;
     else if(fa2 == nullptr) dep = fa1->dep + 1;
     else{
-        if(fa1->dep < fa2->dep) swap(fa1, fa2);//令fa[0] dep// 更大
+        if(fa1->dep < fa2->dep) swap(fa1, fa2);//令fa[0] dep 更大，绘图时按照最长路，故取较大父亲的深度
         dep = fa1->dep + 1;
     }
 
@@ -39,13 +43,13 @@ CommitNode::CommitNode(string _comment, string _id, CommitNode *fa1, CommitNode 
     if(fa2 != nullptr) fa2->nextCommit.push_back(this);
 }
 
-//创建时默认使用当前avatar，需要更改另外操作
 CommitNode* CommitNode::rootCommit = nullptr;
 CommitNode::CommitNode(string _comment, TreeNode *_tnode, CommitNode *fa1, CommitNode *fa2):
   comment(move(_comment)), TreeNode(*_tnode),
   lastCommitNode{fa1, fa2}, myButton(new CommitNodeButton(this))
 {
     avatar = MainWidget->curAvatar;
+    time = Q2Str(QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm"));
     if(fa1 == nullptr) dep = 1;
     else if(fa2 == nullptr) dep = fa1->dep + 1;
     else{
@@ -67,6 +71,7 @@ void CommitNode::save() {
     vector<string> lines;
     lines.push_back(comment);
     lines.push_back(avatar);
+    lines.push_back(time);
     lines.push_back(int2str(dep));
 
     if(lastCommitNode[0] != nullptr) lines.push_back(lastCommitNode[0]->id);

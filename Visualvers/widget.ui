@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>937</width>
-    <height>661</height>
+    <width>904</width>
+    <height>611</height>
    </rect>
   </property>
   <property name="font">
@@ -22,7 +22,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
    <property name="spacing">
-    <number>0</number>
+    <number>3</number>
    </property>
    <property name="leftMargin">
     <number>0</number>
@@ -47,12 +47,12 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <property name="spacing">
-        <number>0</number>
+        <number>3</number>
        </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="spacing">
-          <number>0</number>
+          <number>3</number>
          </property>
          <property name="sizeConstraint">
           <enum>QLayout::SetFixedSize</enum>
@@ -154,7 +154,8 @@
 	border-style: outset;
 }
 #freshButton:hover{
-	background-color: rgb(225, 225, 225);
+	
+	background-color: rgb(211, 255, 152);
 	color: rgb(95, 95, 95);
 	padding:3px;
 	image: url(:/images/img/reflash_black.png);
@@ -203,7 +204,7 @@
          </property>
          <property name="maximumSize">
           <size>
-           <width>242</width>
+           <width>16777215</width>
            <height>300</height>
           </size>
          </property>
@@ -276,7 +277,7 @@
        </property>
        <property name="maximumSize">
         <size>
-         <width>300</width>
+         <width>16777215</width>
          <height>16777215</height>
         </size>
        </property>
@@ -286,9 +287,12 @@ border-style: outset;
 border-width:2px;
 border-color: rgb(132, 132, 132);</string>
        </property>
+       <property name="spacing">
+        <number>2</number>
+       </property>
        <item>
         <property name="text">
-         <string>+ /asdasdasdaf</string>
+         <string>+ asdasdasdaf</string>
         </property>
         <property name="font">
          <font>
@@ -317,7 +321,7 @@ border-color: rgb(132, 132, 132);</string>
        </item>
        <item>
         <property name="text">
-         <string>-  /gkuhhvkhbu</string>
+         <string>-  gkuhhvkhbu</string>
         </property>
         <property name="font">
          <font>
@@ -337,7 +341,7 @@ border-color: rgb(132, 132, 132);</string>
        </item>
        <item>
         <property name="text">
-         <string>*  /sadasdasdsd</string>
+         <string>*  sadasdasdsd</string>
         </property>
         <property name="font">
          <font>
@@ -425,8 +429,10 @@ border-color: rgb(132, 132, 132);</string>
              </property>
              <property name="font">
               <font>
-               <family>微软雅黑</family>
-               <weight>50</weight>
+               <family>Consolas</family>
+               <pointsize>12</pointsize>
+               <weight>9</weight>
+               <italic>false</italic>
                <bold>false</bold>
               </font>
              </property>
@@ -434,18 +440,18 @@ border-color: rgb(132, 132, 132);</string>
               <string notr="true">background-color:rgb(237, 237, 237);
 border-style: outset;
 border-width:2px;
-border-color: rgb(132, 132, 132);</string>
+border-color: rgb(132, 132, 132);
+
+font: 75 12pt &quot;Consolas&quot;;
+color: rgb(188, 93, 61);</string>
              </property>
              <property name="text">
-              <string>ID：</string>
+              <string/>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QDateTimeEdit" name="commitTime">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
+            <widget class="QLabel" name="timeLabel">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>10</horstretch>
@@ -454,7 +460,7 @@ border-color: rgb(132, 132, 132);</string>
              </property>
              <property name="minimumSize">
               <size>
-               <width>150</width>
+               <width>300</width>
                <height>40</height>
               </size>
              </property>
@@ -462,7 +468,14 @@ border-color: rgb(132, 132, 132);</string>
               <string notr="true">background-color:rgb(237, 237, 237);
 border-style: outset;
 border-width:2px;
-border-color: rgb(132, 132, 132);</string>
+border-color: rgb(132, 132, 132);
+
+
+font: 75 12pt &quot;Consolas&quot;;
+color: rgb(188, 93, 61);</string>
+             </property>
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
@@ -494,7 +507,8 @@ border-color: rgb(132, 132, 132);</string>
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">background-color:rgb(237, 237, 237);
+              <string notr="true">
+background-color: rgb(254, 254, 254);
 border-style: outset;
 border-width:2px;
 border-color: rgb(132, 132, 132);</string>
@@ -522,10 +536,12 @@ border-color: rgb(132, 132, 132);</string>
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">background-color:rgb(237, 237, 237);
+              <string notr="true">#curAvatar{
+background-color:rgb(237, 237, 237);
 border-style: outset;
 border-width:2px;
-border-color: rgb(132, 132, 132);</string>
+border-color: rgb(132, 132, 132);
+}</string>
              </property>
              <property name="text">
               <string/>
@@ -615,10 +631,18 @@ border-color: rgb(132, 132, 132);</string>
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color:rgb(237, 237, 237);
+            <string notr="true">#userAvatar{
+background-color:rgb(237, 237, 237);
 border-style: outset;
 border-width:2px;
-border-color: rgb(132, 132, 132);</string>
+border-color: rgb(132, 132, 132);
+}
+#userAvatar:hover{
+background-color:rgb(237, 237, 237);
+border-style: solid;
+border-width:3px;
+border-color: rgb(201, 255, 254);
+}</string>
            </property>
            <property name="text">
             <string/>
@@ -654,8 +678,8 @@ border-color: rgb(132, 132, 132);</string>
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>627</width>
-          <height>448</height>
+          <width>588</width>
+          <height>398</height>
          </rect>
         </property>
         <property name="styleSheet">

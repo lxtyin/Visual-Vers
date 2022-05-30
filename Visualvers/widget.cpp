@@ -31,7 +31,8 @@ void Widget::updateAvatar(){ //更新显示的头像
     string path = curAvatar;
     if(judgePath(path) == EMPTY_PATH) path = DEFAULT_AVATAR;
     QPixmap pix(Str2Q(path));
-    ui->userAvatar->setPixmap(pix.scaled(ui->userAvatar->size()));
+    ui->userAvatar->setPixmap(pix.scaled(ui->userAvatar->size(), //保持宽高比，平滑缩放
+                                         Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 bool Widget::eventFilter(QObject *watched, QEvent *event){
@@ -140,15 +141,15 @@ void Widget::updateGraph(){
 bool Widget::on_freshButton_clicked(){
     // 列出具体修改内容，先只在文件层面上，不具体到修改那几行
     // 用+, -, * 表示新增，删除，修改
-    // 对于整个新增或删除的文件夹，仅用一条+或-表示，*一定对应的是单个文件的修改
-    // 双击列表项中，文件夹的+或-，则去工作区中找到此目录将其展开一层； 双击单个文件项则启动diff，按行列出具体修改内容
+    // 具体到单个文件的修改，对整个文件夹的修改也会逐个列出所有文件
+    // 双击单个文件项则启动diff，按行列出具体修改内容
     // 因不及时刷新可能导致找不到，需提示刷新
     ui->workSpaceWidget->clear();
     vector<ModifyItem*> diff;
     diffWithNode(currentBranch->position, ROOT_PATH, diff);
 
     if(diff.empty()){
-        ui->workSpaceWidget->addItem("工作区很干净，没有任何未提交的修改");
+        ui->workSpaceWidget->addItem("没有未提交的修改！");
         return true;
     }else{
         for(auto itm: diff) ui->workSpaceWidget->addItem(itm);

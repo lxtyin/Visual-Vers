@@ -33,8 +33,10 @@ public:
         if (ContextMenu->objectName().isEmpty())
             ContextMenu->setObjectName(QStringLiteral("ContextMenu"));
         ContextMenu->resize(210, 181);
-        ContextMenu->setStyleSheet(QLatin1String("border: 2px #555555;\n"
+        ContextMenu->setStyleSheet(QLatin1String("#ContextMenu{\n"
+"border: 2px #555555;\n"
 "border-style: outset;\n"
+"}\n"
 "\n"
 ""));
         verticalLayout = new QVBoxLayout(ContextMenu);

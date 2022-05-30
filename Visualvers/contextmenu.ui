@@ -14,8 +14,10 @@
    <string>Dialog</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">border: 2px #555555;
+   <string notr="true">#ContextMenu{
+border: 2px #555555;
 border-style: outset;
+}
 
 </string>
   </property>

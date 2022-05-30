@@ -56,11 +56,12 @@ void readAllCommits(){
 
         vector<string> lines;
         readFile(COMMIT_PATH_+str, lines);
-        while(lines.size() < 5) lines.push_back("");
+        while(lines.size() < 6) lines.push_back("");
         it->comment = lines[0];
         it->avatar = lines[1];
-        it->dep = str2int(lines[2]);
-        string faid1 = lines[3], faid2 = lines[4];
+        it->time = lines[2];
+        it->dep = str2int(lines[3]);
+        string faid1 = lines[4], faid2 = lines[5];
         auto *f1 = nodePool[faid1], *f2 = nodePool[faid2];
         if(f1 != nullptr){
             it->lastCommitNode[0] = dynamic_cast<CommitNode*>(f1);
@@ -234,6 +235,7 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode
         }
 
     //将双方的修改量都插入diff (节点p1->节点p2)
+    //也包括提示文字的插入，name处为显示内容
     auto hint = [&](char type, const string &name, Node *p1 = nullptr, Node *p2 = nullptr){
         string pa1 = p1 ? DATA_PATH_ + p1->id + "\\" + p1->name : "";
         string pa2 = p2 ? DATA_PATH_ + p2->id + "\\" + p2->name : "";
@@ -278,7 +280,8 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode
                         }else{
                             //单个文件问题 直接解决
                             //warn: 各自创建了不同的内容
-                            hint(' ', "冲突发生于 " + vpath + "：双方建立了同名文件，但内容不同。");
+                            hint(' ', vpath + " 发生冲突：");
+                            hint(' ', "双方建立了同名文件，但内容不同。");
                             hint('+', vpath + "[目标]", Xvt, Zvt);
                             hint('+', vpath + "[当前]", Xvt, Yvt);
                             res = false;
@@ -294,7 +297,8 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode
                     if(Zvt == Xvt) pass();
                     else{
                         //warn; 目标修改，自己删除
-                        hint(' ', "冲突发生于 " + vpath + "：[目标]修改了此文件，但[当前]删除了此文件。");
+                        hint(' ', vpath + " 发生冲突：");
+                        hint(' ', "[目标]修改了此文件，但[当前]删除了此文件。");
                         hint('*', vpath + "[目标]", Xvt, Zvt);
                         hint('-', vpath + "[当前]", Xvt, Yvt);
                         res = false;
@@ -305,7 +309,8 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode
                     if(Yvt == Xvt) delt();
                     else{
                         //warn; 自己修改，目标删除
-                        hint(' ', "冲突发生于 " + vpath + "：[当前]修改了此文件，但[目标]删除了此文件。");
+                        hint(' ', vpath + " 发生冲突：");
+                        hint(' ', "[当前]修改了此文件，但[目标]删除了此文件。");
                         hint('-', vpath + "[目标]", Xvt, Zvt);
                         hint('*', vpath + "[当前]", Xvt, Yvt);
                         res = false;
@@ -326,7 +331,8 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode
                             else if(Yvt == Zvt) pass();
                             else{
                                 //warn; 单个文件的修改内容不一致
-                                hint(' ', "冲突发生于 " + vpath + "：双方作出了不同的修改。");
+                                hint(' ', vpath + " 发生冲突：");
+                                hint(' ', "双方作出了不同的修改。");
                                 hint('*', vpath + "[目标]", Xvt, Zvt);
                                 hint('*', vpath + "[当前]", Xvt, Yvt);
                                 res = false;
