@@ -97,12 +97,14 @@ void loadFile(const string &path, vector<string> &lines){
 bool isTextFile(const string &path){
     ifstream fin(utf2gbk(path));
     char c;
-    int w = 0;
+    int w = 0, cnt = 0;
     while(fin >> c){
+        cnt++;
         if(c < 7 || (13 < c && c < 32)) return false;
         else if(c == 9 || c == 10 || c == 13 || 32 <= c) w++;
     }
     fin.close();
+    if(cnt == 0) return true;
     return w > 0;
 }
 

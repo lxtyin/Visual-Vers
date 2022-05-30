@@ -255,11 +255,81 @@ bool pullFromBranch(const string &brname, const string &comment, vector<ModifyIt
 bool createBranch(const string &brname);		//创建分支（没用）
 ```
 
+下面给出各种操作的数据流和算法描述：
+
 
 
 ##### 提交
 
-数据流：按钮点击 - (widget)输入评论 - (operator)commitAllWork - (operator)commitFile - 检查返回
+数据流：按钮点击 - Widget/输入评论 - operator/commitAllWork - commitFile - 检查版本重复 - Widget/刷新绘图区，diff列表
+
+主体操作在 commitFile这一部分：
+
+```c++
+Node* commitFile(const string &path, const string &name);
+```
+
+它是一个递归函数，从工作区根目录开始扫描：
+
+- 扫到叶子节点（单个文件）
+  - 计算其哈希值，若在nodePool（保存所有Node的map，ID作为索引）中没有同样的哈希值：创建该文件的一个新版本，文件复制到.vvs仓库中，返回新建的FileNode
+  - 否则返回nodePool中已有的Node。
+
+- 扫到非叶子节点：
+  - 先临时创建一个.tree文件，递归扫描每一个子节点
+  - 将每个子节点的返回Node的ID和name写入.tree
+  - 所有子节点都完成后，直接取这个.tree文件的哈希值作为树节点ID
+  - 同样在nodePool中检测，若不重复则创建，返回，重复则直接返回nodePool中的。
+
+最后返回的Node在commitAllWork中接收检查，检查是否和历史某个版本重复（因为是依赖哈希值ID索引，存在版本重复时就会有歧义），若重复则拒绝提交并将当前分支切换到发生重复的地方；没什么问题则将最后返回的Node提升为CommitNode，创建一个新的版本节点。
+
+
+
+##### 撤销
+
+数据流：按钮点击 - Widget/确认撤销 - operator/restore - forceLoad(当前版本) - loadNode - Widget/刷新diff列表
+
+撤销和强制转移都采用一个非常暴力的方法：将工作区整个删除，再从版本库中加载指定版本的内容。
+
+
+
+##### 回滚
+
+数据流：按钮点击 - ContextMenu/检查工作区是否干净 - operator/switchToNode- compareAndSwitch - loadNode - Widget/刷新绘图区，diff列表
+
+主体操作在compareAndSwitch这一部分
+
+```c++
+void compareAndSwitch(const string &path, TreeNode *from, TreeNode *to);
+```
+
+它是一个递归函数，参数给出工作区路径，转移前的节点，转移去的节点，做的工作是对比from和to之间的不同，在工作区路径下作出相应的更改。
+
+执行前检查了工作区，保证没有未提交的内容，也就是保证了执行时工作区和from节点始终是一样的。
+
+对比时，扫描from和to的每个子节点，**分类讨论**：
+
+- 对于FileNode：
+  - 只一方有：from有则整个文件夹从工作区中移除，to有则loadNode到工作区
+  - 双方都有但不同：从to中拷贝到工作区并覆盖
+
+- 对于TreeNode：
+  - 只一方有：from有则整个文件夹从工作区中移除，to有则loadNode到工作区
+  - 双方都有：递归解决
+
+如此即切换到了指定的to版本下，不仅是回滚，也可以在分支（分叉）间任意移动或是向前加载
+
+
+
+##### 合并
+
+数据流：按钮点击 - ContextMenu/检查工作区是否干净 - operator/pullFromCommit - getCommitLca - compareAndMerge返回diff - 
+
+
+
+##### 对比
+
+
 
 
 
