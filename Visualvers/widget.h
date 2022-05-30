@@ -3,7 +3,7 @@
 */
 #ifndef WIDGET_H
 #define WIDGET_H
-
+#include <cstring>
 #include "ui_widget.h"
 #include <QWidget>
 #include <unordered_set>
@@ -16,11 +16,16 @@ class Widget : public QWidget
 public:
     static Widget *ins;// 单例
     Ui::Widget *ui;
+    std::string curAvatar;
 
     explicit Widget(QWidget *parent = nullptr);
     ~Widget();
     void updateGraph();
+    void updateAvatar();
     float putButton(CommitNode *p, float xPos, float yPos, std::unordered_set<CommitNode*> &vis);
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event);
 
 public slots:
     bool on_freshButton_clicked();

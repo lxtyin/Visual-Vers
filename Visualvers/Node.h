@@ -14,7 +14,6 @@
 #include <vector>
 using namespace std;
 
-
 class Node {
 public:
     string id, name;
@@ -54,7 +53,6 @@ class CommitNodeButton; //前置声明
 
 //提交记录，同时作为一次提交的文件树根节点
 class CommitNode: public TreeNode {
-
 public:
     static CommitNode *rootCommit; //记录所有提交记录的根节点（最早的空版本，在readAllCommit时指定）
 
@@ -62,6 +60,7 @@ public:
 
     CommitNode *lastCommitNode[2];
     vector<CommitNode*> nextCommit;
+    string avatar;
     string comment;
     int dep;
 

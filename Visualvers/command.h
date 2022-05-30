@@ -17,6 +17,8 @@ extern string ROOT_PATH;
 #define COMMIT_PATH_ (REPO_PATH + "\\commits\\")
 #define BRANCH_FILE_PATH (REPO_PATH + "\\.branch")
 
+#define DEFAULT_AVATAR ":/images/img/default.png"
+
 const string EMPTY_HASH = "00000000000000000000000000000000";
 const string ROOT_ID = "yemmm000000000000000000000000000t";
 

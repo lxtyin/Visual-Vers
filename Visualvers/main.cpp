@@ -12,10 +12,13 @@ int main(int argc, char *argv[]) {
     AllocConsole();    //为调用进程分配一个新的控制台
     ShowWindow(GetConsoleWindow(), SW_HIDE);    //隐藏自己创建的控制台解决黑款闪烁问题
 
+    Widget w;
+    readAvatar(w.curAvatar);
+    w.updateAvatar();
+
     StartDialog st; //初始界面 选择仓库目录
     if(st.exec() == QDialog::Rejected) return 0;
 
-    Widget w;
     readAllNodes(); //读取
     readAllCommits();
     readBranch();

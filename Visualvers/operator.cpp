@@ -56,10 +56,11 @@ void readAllCommits(){
 
         vector<string> lines;
         readFile(COMMIT_PATH_+str, lines);
-        while(lines.size() < 4) lines.push_back("");
+        while(lines.size() < 5) lines.push_back("");
         it->comment = lines[0];
-        it->dep = str2int(lines[1]);
-        string faid1 = lines[2], faid2 = lines[3];
+        it->avatar = lines[1];
+        it->dep = str2int(lines[2]);
+        string faid1 = lines[3], faid2 = lines[4];
         auto *f1 = nodePool[faid1], *f2 = nodePool[faid2];
         if(f1 != nullptr){
             it->lastCommitNode[0] = dynamic_cast<CommitNode*>(f1);
@@ -98,6 +99,20 @@ void loadBranch(){
         }
     }
     loadFile(BRANCH_FILE_PATH, lines);
+}
+
+//读取初始的用户头像
+void readAvatar(string &tar){
+    vector<string> lines;
+    readFile("userAvatars.txt", lines);
+    tar = lines[0];
+}
+
+//将当前用户头像保存，这两个函数仅对userAvatars文件修改
+void loadAvatar(string &avt){
+    vector<string> lines;
+    lines.push_back(avt);
+    loadFile("userAvatars.txt", lines);
 }
 
 //---------------------------------------------------------------------------------//

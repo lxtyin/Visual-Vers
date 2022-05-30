@@ -17,6 +17,9 @@ void readAllCommits();
 void readBranch();
 void loadBranch();
 
+void readAvatar(string &s);
+void loadAvatar(string &s);
+
 //---------------------------------------------------------------------------------//
 
 Node* commitFile(const string &path, const string &name);

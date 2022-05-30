@@ -24,8 +24,10 @@ void TreeNode::save() {
 void FileNode::save() {} //摆设
 
 CommitNode::CommitNode(string _comment, string _id, CommitNode *fa1, CommitNode *fa2):
-comment(move(_comment)), TreeNode(move(_id), ""), lastCommitNode{fa1, fa2}, myButton(new CommitNodeButton(this))
+  comment(move(_comment)), TreeNode(move(_id), ""),
+  lastCommitNode{fa1, fa2}, myButton(new CommitNodeButton(this))
 {
+    avatar = MainWidget->curAvatar;
     if(fa1 == nullptr) dep = 1;
     else if(fa2 == nullptr) dep = fa1->dep + 1;
     else{
@@ -37,10 +39,13 @@ comment(move(_comment)), TreeNode(move(_id), ""), lastCommitNode{fa1, fa2}, myBu
     if(fa2 != nullptr) fa2->nextCommit.push_back(this);
 }
 
+//创建时默认使用当前avatar，需要更改另外操作
 CommitNode* CommitNode::rootCommit = nullptr;
 CommitNode::CommitNode(string _comment, TreeNode *_tnode, CommitNode *fa1, CommitNode *fa2):
-comment(move(_comment)), TreeNode(*_tnode), lastCommitNode{fa1, fa2}, myButton(new CommitNodeButton(this))
+  comment(move(_comment)), TreeNode(*_tnode),
+  lastCommitNode{fa1, fa2}, myButton(new CommitNodeButton(this))
 {
+    avatar = MainWidget->curAvatar;
     if(fa1 == nullptr) dep = 1;
     else if(fa2 == nullptr) dep = fa1->dep + 1;
     else{
@@ -61,6 +66,7 @@ void CommitNode::save() {
 
     vector<string> lines;
     lines.push_back(comment);
+    lines.push_back(avatar);
     lines.push_back(int2str(dep));
 
     if(lastCommitNode[0] != nullptr) lines.push_back(lastCommitNode[0]->id);

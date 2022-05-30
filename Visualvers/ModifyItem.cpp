@@ -50,7 +50,7 @@ void ModifyItem::beclicked(){
 
     vector<string> result;
     getDiffBetween(path1, path2, result);
-    string name = info.substr(info.find_last_of('\\')+1, 50);
+    string name = info.substr(info.find_last_of('\\')+1, 100);
     diffDialog *difdialog = new diffDialog(result, name, MainWidget);
     difdialog->show();
 }

@@ -14,13 +14,16 @@
    <string>Dialog</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">border: 2px #555555;
+border-style: outset;
+
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QPushButton" name="diffWithNodeButton">
      <property name="enabled">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="minimumSize">
       <size>
@@ -29,7 +32,28 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">#diffWithNodeButton{
+	background-color:rgb(239, 255, 254);
+	color: rgb(102, 102, 102);   
+	border-radius: 15px;  
+	border: 2px #555555;
+	border-style: outset;
+}
+
+#diffWithNodeButton:hover{
+	background-color:rgb(226, 255, 253);
+	color: rgb(58, 58, 58);   
+	border-radius: 15px;  
+	border: 2px rgb(206, 206, 206);
+	border-style: outset;
+}
+#diffWithNodeButton:disabled{
+	background-color:rgb(243, 255, 255);
+	color: rgb(207, 207, 207);   
+	border-radius: 15px;  
+	border: 2px rgb(206, 206, 206);
+	border-style: outset;
+}</string>
      </property>
      <property name="text">
       <string>对比此节点与工作区</string>
@@ -42,7 +66,7 @@
    <item>
     <widget class="QPushButton" name="pullFromCommitButton">
      <property name="enabled">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="minimumSize">
       <size>
@@ -51,7 +75,28 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">#pullFromCommitButton{
+	background-color:rgb(239, 255, 254);
+	color: rgb(102, 102, 102);   
+	border-radius: 15px;  
+	border: 2px #555555;
+	border-style: outset;
+}
+
+#pullFromCommitButton:hover{
+	background-color:rgb(226, 255, 253);
+	color: rgb(58, 58, 58);   
+	border-radius: 15px;  
+	border: 2px rgb(206, 206, 206);
+	border-style: outset;
+}
+#pullFromCommitButton:disabled{
+	background-color:rgb(243, 255, 255);
+	color: rgb(207, 207, 207);   
+	border-radius: 15px;  
+	border: 2px rgb(206, 206, 206);
+	border-style: outset;
+}</string>
      </property>
      <property name="text">
       <string>从此节点拉取/合并</string>
@@ -61,13 +106,37 @@
    <item>
     <widget class="QPushButton" name="switchToNodeButton">
      <property name="enabled">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="minimumSize">
       <size>
        <width>140</width>
        <height>40</height>
       </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#switchToNodeButton{
+	background-color:rgb(239, 255, 254);
+	color: rgb(102, 102, 102);   
+	border-radius: 15px;  
+	border: 2px #555555;
+	border-style: outset;
+}
+
+#switchToNodeButton:hover{
+	background-color:rgb(226, 255, 253);
+	color: rgb(58, 58, 58);   
+	border-radius: 15px;  
+	border: 2px rgb(206, 206, 206);
+	border-style: outset;
+}
+#switchToNodeButton:disabled{
+	background-color:rgb(243, 255, 255);
+	color: rgb(207, 207, 207);   
+	border-radius: 15px;  
+	border: 2px rgb(206, 206, 206);
+	border-style: outset;
+}</string>
      </property>
      <property name="text">
       <string>切换工作区到此节点</string>

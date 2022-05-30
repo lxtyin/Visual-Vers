@@ -7,7 +7,9 @@
 #include <QPainter>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QFileDialog>
 #include <QScrollBar>
+#include <QDebug>
 
 Widget* Widget::ins = nullptr;
 Widget::Widget(QWidget *parent) :
@@ -16,12 +18,37 @@ Widget::Widget(QWidget *parent) :
 {
     ins = this;
     ui->setupUi(this);
+    ui->userAvatar->installEventFilter(this);
     ui->currentFlag->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    updateAvatar();
 }
 
-Widget::~Widget()
-{
+Widget::~Widget() {
     delete ui;
+}
+
+void Widget::updateAvatar(){ //更新显示的头像
+    string path = curAvatar;
+    if(judgePath(path) == EMPTY_PATH) path = DEFAULT_AVATAR;
+    QPixmap pix(Str2Q(path));
+    ui->userAvatar->setPixmap(pix.scaled(ui->userAvatar->size()));
+}
+
+bool Widget::eventFilter(QObject *watched, QEvent *event){
+    if(watched == ui->userAvatar){
+        if(event->type() == QEvent::MouseButtonDblClick){
+            // 更改头像
+            QString path = QFileDialog::getOpenFileName(this, "选择一张头像", QDir::currentPath(),
+                                                        "图片文件(*.jpg *.png)");
+            if(!path.isEmpty()){
+                string str = Q2Str(path);
+                curAvatar = "avatars\\" + str.substr(str.find_last_of('/')+1, 100);
+                CopyAFile(str, curAvatar);
+                updateAvatar();
+                loadAvatar(curAvatar);
+            }
+        }
+    }
 }
 
 //更新版本图，dp计算每个节点后续所需要的总高度

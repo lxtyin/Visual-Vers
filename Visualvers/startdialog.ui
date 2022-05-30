@@ -98,6 +98,28 @@
      <height>41</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">#openButton{
+	padding:3px;
+	background-color: rgb(226, 255, 253);
+	color: rgb(95, 95, 95); 
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+	
+	font: 75 15pt &quot;微软雅黑&quot;;
+	
+}
+#openButton:hover{
+	background-color:rgb(139, 255, 242);
+	color: rgb(0, 0, 0);
+	padding:3px;   
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+	font: 75 15pt &quot;微软雅黑&quot;;
+}</string>
+   </property>
    <property name="text">
     <string>打开</string>
    </property>
@@ -110,6 +132,28 @@
      <width>111</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#newButton{
+	padding:3px;
+	background-color: rgb(226, 255, 253);
+	color: rgb(95, 95, 95); 
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+	
+	font: 75 15pt &quot;微软雅黑&quot;;
+	
+}
+#newButton:hover{
+	background-color:rgb(139, 255, 242);
+	color: rgb(0, 0, 0);
+	padding:3px;   
+	border-radius: 15px;  
+	border: 2px groove gray;
+	border-style: outset;
+	font: 75 15pt &quot;微软雅黑&quot;;
+}</string>
    </property>
    <property name="text">
     <string>新建</string>
@@ -124,8 +168,14 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">font: 14pt &quot;Adobe Devanagari&quot;;</string>
+   </property>
    <property name="text">
     <string>最近项目</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>
