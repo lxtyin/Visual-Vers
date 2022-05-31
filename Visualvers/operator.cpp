@@ -13,7 +13,7 @@ void readAllNodes(){
 }
 
 //递归读取一个节点的子树，补全TreeNode和FileNode中的信息
-void readSubNode(TreeNode *p, const string &path){
+void readSubNode(TreeNode *p){
     vector<string> lines;
     readFile(DATA_PATH_ + p->id + "\\" + p->name + ".tree", lines);
 
@@ -30,7 +30,7 @@ void readSubNode(TreeNode *p, const string &path){
         }else{
             TreeNode *node = new TreeNode(vid, vnm);
             nodePool[vid] = node;
-            readSubNode(node, path+"\\"+vnm);
+            readSubNode(node);
             p->appendSon(node);
         }
     }
@@ -38,7 +38,7 @@ void readSubNode(TreeNode *p, const string &path){
 
 //读取已经建立的CommitNode的一整棵子树
 void readCommit(CommitNode *p){
-    readSubNode(p, ROOT_PATH);
+    readSubNode(p);
 }
 
 //读取commits目录下所有内容，建立所有commitNode节点之间的完整信息（不包括子树的完整信息）
@@ -150,18 +150,8 @@ Node* commitFile(const string &path, const string &name){
     if(!nodePool.count(hs)){
         nodePool[hs] = it;
         it->save();
-//        cout << "updated: " << path << '\n';
     }else delete it;
     return nodePool[hs];
-}
-
-//根据两个commit获取其LCA
-CommitNode* getCommitLca(CommitNode *a, CommitNode *b){
-    while(a != b){
-        if(a->dep > b->dep) a = a->lastCommitNode[0];
-        else b = a->lastCommitNode[0];
-    }
-    return a;
 }
 
 //在工作区某处下载某个节点的内容
@@ -395,89 +385,6 @@ void diffWithNode(TreeNode *from, const string &path, vector<ModifyItem*> &resul
     }
 }
 
-// 对比两个文件，推测出从1到2的修改，填入result, 允许输入"" 表示1或2不存在，只一方增或减
-int fd[2003][4003];
-int ld[2003][4003];
-bool getDiffBetween(const string &path1, const string &path2, vector<string> &result){
-
-    int n1 = 0, n2 = 0;
-    vector<string> s1, s2;
-    vector<int> hs1, hs2;
-    if(!path1.empty()){
-        readFile(path1, s1);
-        n1 = s1.size();
-        hs1.resize(n1);
-        for(int i=0;i<s1.size();i++){
-            for(int c: s1[i]) hs1[i] = hs1[i] * 233 + c;
-        }
-    }
-    if(!path2.empty()){
-        readFile(path2, s2);
-        n2 = s2.size();
-        hs2.resize(n2);
-        for(int i=0;i<s2.size();i++){
-            for(int c: s2[i]) hs2[i] = hs2[i] * 233 + c;
-        }
-    }
-
-    auto f = [&](int x, int y)->int&{ return fd[x][y+2000];};
-    auto l = [&](int x, int y)->int&{ return ld[x][y+2000];};
-    f(0, 0) = 0;
-    while(f(0, 0) < min(n1, n2) && hs1[f(0, 0)] == hs2[f(0, 0)]){
-        result.push_back("*  " + s1[f(0, 0)]);
-        f(0, 0)++;
-    }
-
-    int ust = 0, ued = 0;
-    for(int d=1;d<=n1+n2;d++){
-        int st = max(-d, -n2); if((st+d) % 2 == 1) st++;
-        int ed = min(d, n1); if((d-ed) % 2 == 1) ed--;
-        for(int k=st;k<=ed;k+=2){
-            f(d, k) = 0;
-            if(k < ued && f(d-1, k+1) >= f(d, k)){
-                f(d, k) = f(d-1, k+1);
-                l(d, k) = k + 1;
-            }
-            if(k > ust && f(d-1, k-1)+1 >= f(d, k)){
-                f(d, k) = f(d-1, k-1) + 1;
-                l(d, k) = k - 1;
-            }
-
-            int x = f(d, k), y = x - k;
-            while(x < n1 && y < n2 && hs1[x] == hs2[y]) x++, y++, f(d, k)++;
-            if(x == n1 && y == n2){
-                int pk[d+1];
-                pk[d] = k;
-                for(int i=d-1;i>=0;i--){
-                    pk[i] = l(i+1, pk[i+1]);
-                }
-                for(int i=0;i<d;i++){
-                    if(pk[i+1] < pk[i]){
-                        x = f(i, pk[i]), y = x - pk[i];
-                        result.push_back("+  " + s2[y]);
-                        while(x < f(i+1, pk[i+1])){
-                            result.push_back("*  " + s1[x]);
-                            x++;
-                        }
-                    }else{
-                        x = f(i, pk[i]), y = x - pk[i];
-                        result.push_back("-  " + s1[x]);
-                        x++;
-                        while(x < f(i+1, pk[i+1])){
-                            result.push_back("*  " + s1[x]);
-                            x++;
-                        }
-                    }
-                }
-
-                return true;
-            }
-        }
-        ust = st, ued = ed;
-    }
-    return true; //应该用不到
-}
-
 //---------------------------------------------------------------------------------//
 //以下是面向用户的api，参数应当可读
 
@@ -489,6 +396,15 @@ bool isTreeNode(const string &id){
 }
 bool isCommitNode(const string &id){
     return nodePool.count(id) && (nodePool[id]->isCommitNode());
+}
+
+//根据两个commit获取其LCA
+CommitNode* getCommitLca(CommitNode *a, CommitNode *b){
+    while(a != b){
+        if(a->dep > b->dep) a = a->lastCommitNode[0];
+        else b = a->lastCommitNode[0];
+    }
+    return a;
 }
 
 //清空 仅对data,node,branch等清空，不动工作区
@@ -578,6 +494,89 @@ bool switchToBranch(const string &brname){
     loadBranch();
 //    cout << "Current branch has become " << brname << '\n';
     return true;
+}
+
+// 对比两个文件，推测出从1到2的修改，填入result, 允许输入"" 表示1或2不存在，只一方增或减
+int fd[2003][4003];
+int ld[2003][4003];
+bool getDiffBetween(const string &path1, const string &path2, vector<string> &result){
+
+    int n1 = 0, n2 = 0;
+    vector<string> s1, s2;
+    vector<int> hs1, hs2;
+    if(!path1.empty()){
+        readFile(path1, s1);
+        n1 = s1.size();
+        hs1.resize(n1);
+        for(int i=0;i<s1.size();i++){
+            for(int c: s1[i]) hs1[i] = hs1[i] * 233 + c;
+        }
+    }
+    if(!path2.empty()){
+        readFile(path2, s2);
+        n2 = s2.size();
+        hs2.resize(n2);
+        for(int i=0;i<s2.size();i++){
+            for(int c: s2[i]) hs2[i] = hs2[i] * 233 + c;
+        }
+    }
+
+    auto f = [&](int x, int y)->int&{ return fd[x][y+2000];};
+    auto l = [&](int x, int y)->int&{ return ld[x][y+2000];};
+    f(0, 0) = 0;
+    while(f(0, 0) < min(n1, n2) && hs1[f(0, 0)] == hs2[f(0, 0)]){
+        result.push_back("*  " + s1[f(0, 0)]);
+        f(0, 0)++;
+    }
+
+    int ust = 0, ued = 0;
+    for(int d=1;d<=n1+n2;d++){
+        int st = max(-d, -n2); if((st+d) % 2 == 1) st++;
+        int ed = min(d, n1); if((d-ed) % 2 == 1) ed--;
+        for(int k=st;k<=ed;k+=2){
+            f(d, k) = 0;
+            if(k < ued && f(d-1, k+1) >= f(d, k)){
+                f(d, k) = f(d-1, k+1);
+                l(d, k) = k + 1;
+            }
+            if(k > ust && f(d-1, k-1)+1 >= f(d, k)){
+                f(d, k) = f(d-1, k-1) + 1;
+                l(d, k) = k - 1;
+            }
+
+            int x = f(d, k), y = x - k;
+            while(x < n1 && y < n2 && hs1[x] == hs2[y]) x++, y++, f(d, k)++;
+            if(x == n1 && y == n2){
+                int pk[d+1];
+                pk[d] = k;
+                for(int i=d-1;i>=0;i--){
+                    pk[i] = l(i+1, pk[i+1]);
+                }
+                for(int i=0;i<d;i++){
+                    if(pk[i+1] < pk[i]){
+                        x = f(i, pk[i]), y = x - pk[i];
+                        result.push_back("+  " + s2[y]);
+                        while(x < f(i+1, pk[i+1])){
+                            result.push_back("*  " + s1[x]);
+                            x++;
+                        }
+                    }else{
+                        x = f(i, pk[i]), y = x - pk[i];
+                        result.push_back("-  " + s1[x]);
+                        x++;
+                        while(x < f(i+1, pk[i+1])){
+                            result.push_back("*  " + s1[x]);
+                            x++;
+                        }
+                    }
+                }
+
+                return true;
+            }
+        }
+        ust = st, ued = ed;
+    }
+    return true; //应该用不到
 }
 
 //拉取，合并，选项-0：自由合并，冲突提示； 1：冲突时优先当前； 2：冲突时优先目标
