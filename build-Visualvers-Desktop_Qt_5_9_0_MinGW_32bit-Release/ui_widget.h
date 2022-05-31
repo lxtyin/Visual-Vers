@@ -57,7 +57,7 @@ public:
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QStringLiteral("Widget"));
-        Widget->resize(904, 611);
+        Widget->resize(1124, 678);
         QFont font;
         font.setFamily(QString::fromUtf8("\345\276\256\350\275\257\351\233\205\351\273\221"));
         font.setBold(false);
@@ -329,6 +329,9 @@ public:
         commentTextEdit->setSizePolicy(sizePolicy2);
         commentTextEdit->setMinimumSize(QSize(300, 121));
         commentTextEdit->setMaximumSize(QSize(16777215, 121));
+        QFont font4;
+        font4.setPointSize(14);
+        commentTextEdit->setFont(font4);
         commentTextEdit->setStyleSheet(QLatin1String("\n"
 "background-color: rgb(254, 254, 254);\n"
 "border-style: outset;\n"
@@ -439,8 +442,9 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new myPainterWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 588, 398));
-        scrollAreaWidgetContents->setStyleSheet(QLatin1String("#scrollAreaWidgetContents{background-color: rgb(217, 217, 217);\n"
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 808, 465));
+        scrollAreaWidgetContents->setStyleSheet(QLatin1String("#scrollAreaWidgetContents{\n"
+"	background-color: rgb(131, 131, 131);\n"
 "border-style: outset;\n"
 "border-width:2px;\n"
 "border-color: rgb(132, 132, 132);\n"
@@ -448,10 +452,7 @@ public:
         currentFlag = new QLabel(scrollAreaWidgetContents);
         currentFlag->setObjectName(QStringLiteral("currentFlag"));
         currentFlag->setGeometry(QRect(70, 130, 60, 60));
-        currentFlag->setStyleSheet(QLatin1String("#currentFlag:hover{border-style: outset;\n"
-"border-radius: 15px;  \n"
-"border: 2px groove gray;\n"
-"border-style: outset;}"));
+        currentFlag->setStyleSheet(QStringLiteral(""));
         currentFlag->setPixmap(QPixmap(QString::fromUtf8(":/images/img/flag.png")));
         currentFlag->setAlignment(Qt::AlignCenter);
         scrollArea->setWidget(scrollAreaWidgetContents);
@@ -499,6 +500,11 @@ public:
 
         idLabel->setText(QString());
         timeLabel->setText(QString());
+        commentTextEdit->setHtml(QApplication::translate("Widget", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'SimSun'; font-size:14pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;\"><br /></p></body></html>", Q_NULLPTR));
         curAvatar->setText(QString());
         closeButton->setText(QApplication::translate("Widget", "\344\270\213\347\217\255", Q_NULLPTR));
         userAvatar->setText(QString());

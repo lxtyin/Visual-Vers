@@ -10,10 +10,11 @@ using namespace std;
 namespace Ui { class diffDialog; }
 
 class diffDialog : public QDialog {
-Q_OBJECT
-
+    Q_OBJECT
 public:
-    explicit diffDialog(vector<string> &diff, const string &name, QWidget *parent = nullptr);
+    explicit diffDialog(vector<string> &diff, const string &name,
+                        const string &f = "", const string &t = "", QWidget *parent = nullptr);
+
     ~diffDialog() override;
 
 private:

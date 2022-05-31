@@ -5,6 +5,7 @@
 #include "diffdialog.h"
 #include "widget.h"
 #include <QMessageBox>
+#include <QObject>
 
 ModifyItem::ModifyItem(char _type, const string &_info, const string &_p1, const string &_p2, QListWidget *parent):
     type(_type), info(_info), path1(_p1), path2(_p2), QListWidgetItem(parent)
@@ -32,6 +33,7 @@ ModifyItem::ModifyItem(char _type, const string &_info, const string &_p1, const
         setBackground(brush3);
     }
 
+    applyTar = "";
     //若info为路径，自动去除ROOT_PATH部分
     bool hasRoot = true;
     for(int i=0;i<ROOT_PATH.size();i++){
@@ -51,7 +53,6 @@ void ModifyItem::beclicked(){
     bool f2 = (judgePath(path2) == FILE_PATH);
     if(!f1 && !f2) return; //可能因未及时刷新导致文件不存在
 
-
     if((f1 && !isTextFile(path1)) || (f2 && !isTextFile(path2))){
         int res = QMessageBox::question(MainWidget, "提示", "这并不是一个文本格式文件，"
                                                           "可能无法查看您需要的内容，继续吗？", QMessageBox::Yes, QMessageBox::No);
@@ -60,7 +61,14 @@ void ModifyItem::beclicked(){
 
     vector<string> result;
     getDiffBetween(path1, path2, result);
-//    string name = info.substr(info.find_last_of('\\')+1, 100);
-    diffDialog *difdialog = new diffDialog(result, info, MainWidget);
-    difdialog->show();
+    if(applyTar.empty()){
+        diffDialog *dlg = new diffDialog(result, info, "", "", MainWidget);
+        dlg->exec();
+    }else{//可应用到工作区的
+        diffDialog *dlg = new diffDialog(result, info, path2, applyTar, MainWidget);
+        if(dlg->exec() == QDialog::Accepted){ //应用到目标
+            for(auto *it: linkItem) delete it;
+            delete this;
+        }
+    }
 }

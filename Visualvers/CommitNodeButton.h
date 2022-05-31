@@ -4,19 +4,25 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QContextMenuEvent>
+#include <set>
+using namespace std;
 
 class CommitNode; //前置声明
 
 class CommitNodeButton : public QPushButton {
     Q_OBJECT
+    static set<CommitNodeButton*> allbut;
 public:
-    static CommitNodeButton *currentCommitNodeButton;
+
+//    static CommitNodeButton *currentCommitNodeButton;
 
     CommitNode *myNode;
     float xPos, yPos;
     float occupyHeight; //这个按钮后续占用的总高度，部署前计算。
 
-    explicit CommitNodeButton(CommitNode *_node, QWidget *parent = nullptr);
+    CommitNodeButton(CommitNode *_node, QWidget *parent = nullptr);
+    ~CommitNodeButton();
+
     void setImage(QString _img);
     void setPosition(float _x, float _y);
 

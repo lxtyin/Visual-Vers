@@ -35,6 +35,7 @@ void Widget::updateAvatar(){ //更新显示的头像
                                          Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
+//事件过滤器，处理两个头像的交互
 bool Widget::eventFilter(QObject *watched, QEvent *event){
     if(watched == ui->userAvatar){
         if(event->type() == QEvent::MouseButtonDblClick){
@@ -50,6 +51,11 @@ bool Widget::eventFilter(QObject *watched, QEvent *event){
             }
         }
     }
+}
+
+void Widget::resizeEvent(QResizeEvent *event){
+    QWidget::resizeEvent(event);
+    updateGraph();
 }
 
 //更新版本图，dp计算每个节点后续所需要的总高度
@@ -130,8 +136,8 @@ void Widget::updateGraph(){
     ui->currentFlag->raise();
     ui->scrollAreaWidgetContents->setMinimumSize(mxW + 300, mxH + 100);
     ui->scrollArea->update();
-//    QScrollBar *hbar = ui->scrollArea->horizontalScrollBar();
-//    hbar->setValue(hbar->value()); //滚动到末尾？没作用
+    auto hbar = ui->scrollArea->horizontalScrollBar();
+    hbar->setValue(hbar->maximum());
 }
 
 // ----------- button ------------- //
@@ -144,6 +150,7 @@ bool Widget::on_freshButton_clicked(){
     // 具体到单个文件的修改，对整个文件夹的修改也会逐个列出所有文件
     // 双击单个文件项则启动diff，按行列出具体修改内容
     // 因不及时刷新可能导致找不到，需提示刷新
+//    CommitNodeButton::currentCommitNodeButton->beclicked();
     ui->workSpaceWidget->clear();
     vector<ModifyItem*> diff;
     diffWithNode(currentBranch->position, ROOT_PATH, diff);

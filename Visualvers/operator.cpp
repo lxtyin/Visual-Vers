@@ -233,25 +233,36 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode
             ALL.insert(v->name);
         }
 
-    //将双方的修改量都插入diff (节点p1->节点p2)
-    //也包括提示文字的插入，name处为显示内容
-    auto hint = [&](char type, const string &name, Node *p1 = nullptr, Node *p2 = nullptr){
-        string pa1 = p1 ? DATA_PATH_ + p1->id + "\\" + p1->name : "";
-        string pa2 = p2 ? DATA_PATH_ + p2->id + "\\" + p2->name : "";
-        diff.emplace_back(new ModifyItem(type, name, pa1, pa2));
-    };
-
     bool res = true;
     for(string dir: ALL){
 
         string vpath = path+"\\"+dir;
         //大力枚举所有情况
         Node *Xvt, *Yvt, *Zvt; //三个版本下 dir路径对应的子对象
-        Xvt = X.count(dir) ? X[dir] : nullptr;
-        Yvt = Y.count(dir) ? Y[dir] : nullptr;
-        Zvt = Z.count(dir) ? Z[dir] : nullptr;
+        Xvt = X.count(dir) ? X[dir] : nullptr; //X:lca
+        Yvt = Y.count(dir) ? Y[dir] : nullptr; //Y:work
+        Zvt = Z.count(dir) ? Z[dir] : nullptr; //Z:tar
 
         //处理方式
+        auto hint = [&](char type1, char type2, const string &info){
+            //提示冲突，指出双方做的操作，将双方的修改量都插入diff (节点p1->节点p2)
+            //也包括提示文字的插入
+            ModifyItem *item1 = new ModifyItem(' ', vpath + "发生冲突");
+            ModifyItem *item2 = new ModifyItem(' ', info);
+            string pa1 = Xvt ? DATA_PATH_ + Xvt->id + "\\" + Xvt->name : "";
+            string pa2 = Yvt ? DATA_PATH_ + Yvt->id + "\\" + Yvt->name : "";
+            string pa3 = Zvt ? DATA_PATH_ + Zvt->id + "\\" + Zvt->name : "";
+            ModifyItem *item3 = new ModifyItem(type2, vpath + "[当前]", pa1, pa2);
+            ModifyItem *item4 = new ModifyItem(type1, vpath + "[目标]", pa1, pa3);
+            diff.emplace_back(item1);
+            diff.emplace_back(item2);
+            diff.emplace_back(item3);
+            diff.emplace_back(item4);
+            item4->applyTar = vpath;
+            item4->linkItem.push_back(item1);
+            item4->linkItem.push_back(item2);
+            item4->linkItem.push_back(item3);
+        };
         auto copy = [&](){CopyAFile(DATA_PATH_+Zvt->id+"\\"+dir, vpath);};
         auto delt = [&](){DeleteAny(vpath);};
         auto replace = copy;
@@ -279,10 +290,7 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode
                         }else{
                             //单个文件问题 直接解决
                             //warn: 各自创建了不同的内容
-                            hint(' ', vpath + " 发生冲突：");
-                            hint(' ', "双方建立了同名文件，但内容不同。");
-                            hint('+', vpath + "[目标]", Xvt, Zvt);
-                            hint('+', vpath + "[当前]", Xvt, Yvt);
+                            hint('+', '+', "双方建立了同名文件，但内容不同。");
                             res = false;
                         }
                     }
@@ -296,10 +304,7 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode
                     if(Zvt == Xvt) pass();
                     else{
                         //warn; 目标修改，自己删除
-                        hint(' ', vpath + " 发生冲突：");
-                        hint(' ', "[目标]修改了此文件，但[当前]删除了此文件。");
-                        hint('*', vpath + "[目标]", Xvt, Zvt);
-                        hint('-', vpath + "[当前]", Xvt, Yvt);
+                        hint('*', '-', "[目标]修改了此文件，但[当前]删除了此文件。");
                         res = false;
                     }
                 }
@@ -308,10 +313,7 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode
                     if(Yvt == Xvt) delt();
                     else{
                         //warn; 自己修改，目标删除
-                        hint(' ', vpath + " 发生冲突：");
-                        hint(' ', "[当前]修改了此文件，但[目标]删除了此文件。");
-                        hint('-', vpath + "[目标]", Xvt, Zvt);
-                        hint('*', vpath + "[当前]", Xvt, Yvt);
+                        hint('-', '*', "[当前]修改了此文件，但[目标]删除了此文件。");
                         res = false;
                     };
                 }else{
@@ -330,10 +332,7 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work, TreeNode
                             else if(Yvt == Zvt) pass();
                             else{
                                 //warn; 单个文件的修改内容不一致
-                                hint(' ', vpath + " 发生冲突：");
-                                hint(' ', "双方作出了不同的修改。");
-                                hint('*', vpath + "[目标]", Xvt, Zvt);
-                                hint('*', vpath + "[当前]", Xvt, Yvt);
+                                hint('*', '*', "双方作出了不同的修改。");
                                 res = false;
                             }
                         }

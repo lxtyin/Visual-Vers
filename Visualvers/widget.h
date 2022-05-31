@@ -26,6 +26,7 @@ public:
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
 public slots:
     bool on_freshButton_clicked();

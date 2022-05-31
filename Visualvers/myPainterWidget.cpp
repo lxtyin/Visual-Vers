@@ -2,12 +2,19 @@
 #include "myPainterWidget.h"
 #include <QPainter>
 #include <cmath>
+#include <QStyleOption>
 using namespace std;
 
 myPainterWidget::myPainterWidget(QWidget *parent): QWidget((parent)), lines(vector<QLineF>()) {}
 
 void myPainterWidget::paintEvent(QPaintEvent *event) {
+
     QPainter painter(this);
+    QStyleOption opt;
+    opt.initFrom(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);//绘制样式
+    painter.setRenderHint(QPainter::Antialiasing);
+
     QPen pen(Qt::green, 4, Qt::SolidLine, Qt::SquareCap, Qt::MiterJoin);
     painter.setPen(pen);
     for(auto &l: lines){

@@ -2,14 +2,14 @@
 #include "diffdialog.h"
 #include "ui_diffDialog.h"
 #include "command.h"
+#include <QDebug>
 
-diffDialog::diffDialog(vector<string> &diff, const string &name, QWidget *parent) :
+diffDialog::diffDialog(vector<string> &diff, const string &name,
+    const string &f, const string &t, QWidget *parent):
     QDialog(parent), ui(new Ui::diffDialog)
 {
     ui->setupUi(this);
     // 第一行的样式在ui中设置好，后面的在构造函数中添上
-
-    connect(ui->closeButton, &QPushButton::clicked, this, &QDialog::close);
 
     ui->diffListWidget->item(0)->setText(Str2Q(name));
 
@@ -32,6 +32,18 @@ diffDialog::diffDialog(vector<string> &diff, const string &name, QWidget *parent
     }
 
     this->show();
+    connect(ui->closeButton, &QPushButton::clicked, this, &QDialog::close);
+
+    //允许开启一个按钮，按下时将sfrom的内容应用到sto
+    if(t.empty()){
+        delete ui->applyButton;
+    }else{
+        connect(ui->applyButton, &QPushButton::clicked, [&](){
+            if(f.empty()) DeleteAny(t); //f是空 则将删除应用到t
+            else CopyAFile(f, t);
+            accept();
+        });
+    }
 }
 
 diffDialog::~diffDialog() {

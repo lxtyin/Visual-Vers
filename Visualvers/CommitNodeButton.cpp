@@ -5,15 +5,21 @@
 #include "command.h"
 #include "contextmenu.h"
 
-CommitNodeButton* CommitNodeButton::currentCommitNodeButton = nullptr;
+//CommitNodeButton* CommitNodeButton::currentCommitNodeButton = nullptr;
+set<CommitNodeButton*> CommitNodeButton::allbut;
 CommitNodeButton::CommitNodeButton(CommitNode *_node, QWidget *parent) :
 occupyHeight(0), QPushButton(parent), xPos(0), yPos(0) {
 
     myNode = _node;
+    allbut.insert(this);
     setText("");
     setImage(":/images/img/CButtonUp.png");
 
     connect(this, &CommitNodeButton::clicked, this, &CommitNodeButton::beclicked);
+}
+
+CommitNodeButton::~CommitNodeButton(){
+    allbut.erase(this);
 }
 
 void CommitNodeButton::setImage(QString _img) {
@@ -32,9 +38,15 @@ void CommitNodeButton::setPosition(float _x, float _y) {
 }
 
 void CommitNodeButton::beclicked() {
-    if(currentCommitNodeButton != nullptr) currentCommitNodeButton->setImage(":/images/img/CButtonUp.png");
-    currentCommitNodeButton = this;
-
+//    if(currentCommitNodeButton != nullptr) currentCommitNodeButton->setImage(":/images/img/CButtonUp.png");
+//    currentCommitNodeButton = this;
+    for(CommitNodeButton* x: allbut){
+        if(x->myNode->avatar == myNode->avatar){
+            x->setImage(":/images/img/CButtonLight.png");
+        }else{
+            x->setImage(":/images/img/CButtonUp.png");
+        }
+    }
     setImage(":/images/img/CButtonDown.png");
     MainUI->idLabel->setText(Str2Q("ID:  \t" + myNode->id));
     MainUI->commentTextEdit->setText(Str2Q(myNode->comment));
@@ -46,6 +58,7 @@ void CommitNodeButton::beclicked() {
 }
 
 void CommitNodeButton::contextMenuEvent(QContextMenuEvent *ev){
+    beclicked();
     ContextMenu *menu = new ContextMenu(this, MainWidget);
     menu->move(ev->globalPos());
     menu->open();

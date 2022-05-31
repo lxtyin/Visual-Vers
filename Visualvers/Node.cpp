@@ -61,7 +61,7 @@ CommitNode::CommitNode(string _comment, TreeNode *_tnode, CommitNode *fa1, Commi
     if(fa2 != nullptr) fa2->nextCommit.push_back(this);
 }
 CommitNode::~CommitNode() {
-    delete myButton;
+    if(myButton) delete myButton; //绑定
 }
 
 void CommitNode::save() {
