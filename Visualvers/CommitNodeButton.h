@@ -11,26 +11,24 @@ class CommitNode; //前置声明
 
 class CommitNodeButton : public QPushButton {
     Q_OBJECT
-    static set<CommitNodeButton*> allbut;
+    static set<CommitNodeButton*> allbut; //静态存放所有按钮
 public:
 
-//    static CommitNodeButton *currentCommitNodeButton;
-
-    CommitNode *myNode;
-    float xPos, yPos;
+    CommitNode *myNode; //对应的CommitNode，和数据层衔接
+    float xPos, yPos;   //所处位置，与myPainterWidget衔接
     float occupyHeight; //这个按钮后续占用的总高度，部署前计算。
 
     CommitNodeButton(CommitNode *_node, QWidget *parent = nullptr);
     ~CommitNodeButton();
 
-    void setImage(QString _img);
-    void setPosition(float _x, float _y);
+    void setImage(QString _img);         //设置图片
+    void setPosition(float _x, float _y);//设置位置
 
 protected:
-    void contextMenuEvent(QContextMenuEvent *ev);
+    void contextMenuEvent(QContextMenuEvent *ev); //右键事件，和contextMenu衔接
 
 public slots:
-    void beclicked();
+    void beclicked(); //点击事件
 };
 
 #endif // COMMITNODEBUTTON_H

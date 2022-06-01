@@ -17,9 +17,9 @@ public:
     ~ContextMenu();
 
 public slots:
-    void on_switchToNodeButton_clicked();
-    void on_pullFromCommitButton_clicked();
-    void on_diffWithNodeButton_clicked();
+    void on_switchToNodeButton_clicked();       //切换到节点按钮
+    void on_pullFromCommitButton_clicked();     //拉取合并按钮
+    void on_diffWithNodeButton_clicked();       //对比差异按钮
 private:
     Ui::ContextMenu *ui;
 };

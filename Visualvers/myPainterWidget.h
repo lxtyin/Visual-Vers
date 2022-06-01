@@ -14,8 +14,8 @@ class myPainterWidget: public QWidget {
 public:
 
     explicit myPainterWidget(QWidget *parent = nullptr);
-    void clearContents();
-    void addLine(QLineF l);
+    void clearContents();       //清除内容
+    void addLine(QLineF l);     //加入线条
 
 protected:
     void paintEvent(QPaintEvent *event);

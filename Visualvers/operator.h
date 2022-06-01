@@ -31,27 +31,30 @@ bool compareAndMerge(const string &path, TreeNode *lca, TreeNode *work,      //�
 void diffWithNode(TreeNode *from, const string &path, vector<ModifyItem*> &result);     //对比，将from节点到工作区path的修改内容写入result
 
 //---------------------------------------------------------------------------------//
+//面向用户部分
 
-bool isFileNode(const string &id);
+bool isFileNode(const string &id);                                     //判断一个id对应的节点类型
 bool isTreeNode(const string &id);
 bool isCommitNode(const string &id);
 
 CommitNode* getCommitLca(CommitNode *a, CommitNode *b);                 //获取两个版本的Lca
 
-void init();
-bool commitAllWork(const string &comment);
-bool forceLoad(CommitNode *target);
+void init();                                                            //初始化项目仓库
+bool commitAllWork(const string &comment);                              //提交工作区所有内容
+bool forceLoad(CommitNode *target);                                     //强制转换到节点
 bool forceLoad(const string &id);
-void restore();
+void restore();                                                         //撤销工作区内容
 
-bool switchToNode(CommitNode *target);
+bool switchToNode(CommitNode *target);                                  //切换工作区到节点
 bool switchToNode(const string &id);
 bool switchToBranch(const string &brname);
-bool getDiffBetween(const string &path1, const string &path2, vector<string> &result);  //对比两个文件，将它们的具体修改内容（具体道行）写入result
 
+//对比两个文件，将它们的具体修改内容（具体道行）写入result
+bool getDiffBetween(const string &path1, const string &path2, vector<string> &result);
+//从某节点拉取合并
 bool pullFromCommit(CommitNode *target, const string &comment, vector<ModifyItem*> &diff, int option = 0);
 bool pullFromBranch(const string &brname, const string &comment, vector<ModifyItem*> &diff, int option = 0);
-
+//创建分支
 bool createBranch(const string &brname);
 
 
